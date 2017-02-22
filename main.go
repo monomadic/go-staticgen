@@ -1,23 +1,10 @@
 package main
 
-// https://github.com/mattn/jedie/blob/master/jedie.go
-
 import (
-  // "flag"
   "fmt"
-  // "io"
-  // "log"
-  // "net/http"
-  // "net/url"
   "os"
-  // "os/exec"
   "path/filepath"
-  // "runtime"
-  // "sort"
-  // "strings"
-  // "time"
   "strings"
-  // "html/template"
 )
 
 func main() {
@@ -57,22 +44,6 @@ func main() {
     return err
   })
 }
-
-// func copyFile(filename string) {
-//   if reader, err := os.Open(filename); err == nil {
-//     defer reader.Close()
-
-//     if writer, err := os.Create(convertSrcToDestPath(filename)); err == nil {
-//       _, err = io.Copy(reader, writer)
-
-//       if err != nil {
-//         fmt.Println(err)
-//       } else {
-//         fmt.Printf("[COPY] %s => %s\n", filename, convertSrcToDestPath(filename))
-//       }
-//     }
-//   }
-// }
 
 func convertSrcToDestPath(filename string) string {
   return strings.Replace(filename, "sites", "public", 1)
