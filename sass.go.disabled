@@ -1,0 +1,30 @@
+package main
+
+import (
+  "os"
+  "github.com/wellington/go-libsass"
+  "github.com/fatih/color"
+  "bytes"
+  "strings"
+)
+
+func compileSass(filename string) {
+  var doc bytes.Buffer
+
+  to := strings.Replace(filename, "sites", "public", 1)
+  to = strings.Replace(to, "sass", "css", 1)
+
+  fromFp, _ := os.Open(filename)
+
+  if comp, err := libsass.New(&doc, fromFp); err != nil {
+    color.Red("[ERROR]: %s\n", err)
+  } else {
+    if err := comp.Run(); err != nil {
+      color.Red("[ERROR]: %s\n", err)
+    } else {
+      color.Green("[SASS]: " + filename + " => " + to + "\n")
+    }
+  }
+
+  writeStringToFile(to, doc.String())
+}
