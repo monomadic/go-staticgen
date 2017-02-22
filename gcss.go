@@ -3,9 +3,9 @@ package main
 import (
   "os"
   "github.com/yosssi/gcss"
-  "github.com/fatih/color"
   "bytes"
   "strings"
+  "fmt"
   // "text/template"
 )
 
@@ -19,11 +19,11 @@ func compileGcss(filename string) {
   _, err = gcss.Compile(&doc, from)
 
   if err != nil {
+    writeStringToFile(toMake, doc.String())
+    consoleSuccess(fmt.Sprintf("[SASS]: " + filename + " => " + toMake + "\n"))
+  } else {
+    consoleError(err)
   }
-
-  writeStringToFile(toMake, doc.String())
-
-  color.Green("[SASS]: " + filename + " => " + toMake + "\n")
 }
 
 // func processAsTemplate(filename string) bytes.Buffer {

@@ -2,15 +2,14 @@ package main
 
 import (
   "github.com/yosssi/ace"
-  "github.com/fatih/color"
   "bytes"
   "strings"
+  "fmt"
 )
 
 func compileAce(filename string) {
   var doc bytes.Buffer
 
-  // if tpl, err := ace.Load(findLayoutFile(filename), trimExt(filename), &ace.Options{DynamicReload: true}); err == nil {
   if tpl, err := ace.Load(trimExt(filename), "", nil); err == nil {
 
     tpl.Execute(&doc, nil)
@@ -20,8 +19,8 @@ func compileAce(filename string) {
 
     writeStringToFile(toMake, doc.String())
 
-    color.Green("[ACE]: " + filename + " => " + toMake + "\n")
+    consoleSuccess(fmt.Sprintf("[ACE]: " + filename + " => " + toMake + "\n"))
   } else {
-    color.Red("[ERROR]: %s\n", err)
+    consoleError(err)
   }
 }
