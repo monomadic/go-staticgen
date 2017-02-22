@@ -5,7 +5,7 @@ package main
 import (
   // "flag"
   "fmt"
-  "io"
+  // "io"
   // "log"
   // "net/http"
   // "net/url"
@@ -16,8 +16,6 @@ import (
   // "sort"
   // "strings"
   // "time"
-  "github.com/yosssi/ace"
-  "bytes"
   "strings"
   // "html/template"
 )
@@ -60,21 +58,21 @@ func main() {
   })
 }
 
-func copyFile(filename string) {
-  if reader, err := os.Open(filename); err == nil {
-    defer reader.Close()
+// func copyFile(filename string) {
+//   if reader, err := os.Open(filename); err == nil {
+//     defer reader.Close()
 
-    if writer, err := os.Create(convertSrcToDestPath(filename)); err == nil {
-      _, err = io.Copy(reader, writer)
+//     if writer, err := os.Create(convertSrcToDestPath(filename)); err == nil {
+//       _, err = io.Copy(reader, writer)
 
-      if err != nil {
-        fmt.Println(err)
-      } else {
-        fmt.Printf("[COPY] %s => %s\n", filename, convertSrcToDestPath(filename))
-      }
-    }
-  }
-}
+//       if err != nil {
+//         fmt.Println(err)
+//       } else {
+//         fmt.Printf("[COPY] %s => %s\n", filename, convertSrcToDestPath(filename))
+//       }
+//     }
+//   }
+// }
 
 func convertSrcToDestPath(filename string) string {
   return strings.Replace(filename, "sites", "public", 1)

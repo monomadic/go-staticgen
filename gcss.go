@@ -6,6 +6,7 @@ import (
   "github.com/fatih/color"
   "bytes"
   "strings"
+  // "text/template"
 )
 
 func compileGcss(filename string) {
@@ -24,3 +25,9 @@ func compileGcss(filename string) {
 
   color.Green("[SASS]: " + filename + " => " + toMake + "\n")
 }
+
+// func processAsTemplate(filename string) bytes.Buffer {
+//   var buf bytes.Buffer
+//   err := tmpl[name].ExecuteTemplate(&buf, filename, data)
+
+// }
