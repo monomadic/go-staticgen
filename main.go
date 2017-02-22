@@ -8,6 +8,10 @@ import (
 )
 
 func main() {
+  processSites()
+}
+
+func processSites() {
 
   filepath.Walk("sites/robsaunders", func(name string, info os.FileInfo, err error) error {
     if info == nil || name == "sites/robsaunders" {
