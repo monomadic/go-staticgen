@@ -19,8 +19,7 @@ func processSites() {
     ext := filepath.Ext(name)
 
     if info.IsDir() {
-      consoleInfo("[MKDIR] " + from + "\n")
-      makeDirIfMissing(from)
+      makeDirIfMissing(convertSrcToDestPath(from))
       if from == "public/robsaunders" || dot == '.' || dot == '_' {
         return filepath.SkipDir
       }
@@ -58,9 +57,9 @@ func trimExt(filename string) string {
 }
 
 func makeDirIfMissing(dir string) {
-  toMake := strings.Replace(dir, "sites", "public", 1)
-  if _, err := os.Stat(toMake); os.IsNotExist(err) {
-    os.MkdirAll(toMake, os.ModePerm)
+  if _, err := os.Stat(dir); os.IsNotExist(err) {
+    consoleInfo("[MKDIR] " + dir)
+    os.MkdirAll(dir, os.ModePerm)
   }
 }
 

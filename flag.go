@@ -3,6 +3,7 @@ package main
 import (
   "flag"
   "fmt"
+  "os"
 )
 
 func processArgs() {
@@ -16,16 +17,34 @@ func processArgs() {
     An opinionated multi-site static generator written in golang.
 
   COMMANDS:
-    new <sitename>       Creates a new site scaffold in the current directory.
-    build                Process files from sites directory into public directory.
-    serve                Serve your site locally
+    new <sitename>       Creates a new site scaffolding.
+    build <sitename>     Process a specific site only.
+    build                Process all sites.
+    serve                Serve your site locally.
 `[1:])
   }
   flag.Parse()
 
   switch {
+  case flag.Arg(0) == "new":
+    p := flag.Arg(1)
+    if p == "" {
+      flag.Usage()
+      os.Exit(1)
+    }
+    scaffold(flag.Arg(1))
+
   case flag.Arg(0) == "build":
-    processSites()
+    p := flag.Arg(1)
+    if p == "" {
+      processSites()
+    } else {
+      // processSite(flag.Arg(1))
+    }
+
+  case flag.Arg(0) == "serve":
+    serve()
+
   default:
     flag.Usage()
   }

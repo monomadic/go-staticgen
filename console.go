@@ -2,8 +2,13 @@ package main
 
 import (
   "github.com/fatih/color"
-  // "strings"
 )
+
+func checkFatal(err error) {
+  if err != nil {
+    color.Red("[ERROR]: %s\n", err)
+  }
+}
 
 func consoleError(err error) {
   color.Red("[ERROR]: %s\n", err)
