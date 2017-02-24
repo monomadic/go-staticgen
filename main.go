@@ -5,5 +5,4 @@ import (
 
 func main() {
   processArgs()
-  // processSites()
 }

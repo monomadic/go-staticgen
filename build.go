@@ -5,12 +5,25 @@ import (
   "os"
   "path/filepath"
   "strings"
+  "io/ioutil"
 )
 
 func processSites() {
+  files, err := ioutil.ReadDir("sites")
+  if err != nil { checkFatal(err) }
 
-  filepath.Walk("sites/robsaunders", func(name string, info os.FileInfo, err error) error {
-    if info == nil || name == "sites/robsaunders" {
+  for _, file := range files {
+    if file.IsDir() {
+      consoleInfo("\nProcessing Site: "+ file.Name())
+      processSite(file.Name())
+    }
+  }
+}
+
+func processSite(name string) {
+
+  filepath.Walk("sites/"+name, func(name string, info os.FileInfo, err error) error {
+    if info == nil || name == "sites/"+name {
       return err
     }
 
@@ -20,7 +33,7 @@ func processSites() {
 
     if info.IsDir() {
       makeDirIfMissing(convertSrcToDestPath(from))
-      if from == "public/robsaunders" || dot == '.' || dot == '_' {
+      if from == "public/"+name || dot == '.' || dot == '_' {
         return filepath.SkipDir
       }
     } else {
@@ -34,7 +47,7 @@ func processSites() {
         case ".ace":
           compileAce(from)
         case ".sass":
-          compileGcss(from)
+          compileGcss(from, name)
         default:
           copyFile(from)
         }
