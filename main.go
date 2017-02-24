@@ -5,11 +5,26 @@ import (
   "os"
   "path/filepath"
   "strings"
+  // "text/template"
 )
 
 func main() {
   processSites()
 }
+
+// func processSites() {
+//     funcMap := template.FuncMap {
+//         "title": strings.Title,
+//     }
+
+//     tpl := template.Must(template.New("main").Funcs(funcMap).ParseGlob("sites/robsaunders/styles/*.sass"))
+//     tplVars := map[string]string {
+//         "Title": "Hello world",
+//         "Content": "Hi there",
+//     }
+//     tpl.ExecuteTemplate(os.Stdout, "index.html", tplVars)
+
+// }
 
 func processSites() {
 
@@ -23,7 +38,7 @@ func processSites() {
     ext := filepath.Ext(name)
 
     if info.IsDir() {
-      print("[MKDIR] " + from + "\n")
+      consoleInfo("[MKDIR] " + from + "\n")
       makeDirIfMissing(from)
       if from == "public/robsaunders" || dot == '.' || dot == '_' {
         return filepath.SkipDir
