@@ -67,7 +67,7 @@ a
   color: #00E7EE
   border-bottom: 5px solid #FAFF9D
   text-decoration: none
-}`
+`
 }
 
 func sassPartial() string {

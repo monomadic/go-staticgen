@@ -14,7 +14,7 @@ func processTemplate(from string, dir string) bytes.Buffer {
       "title": strings.Title,
   }
 
-  tpl := template.Must(template.New("main.sass").Funcs(funcMap).ParseGlob("sites/robsaunders/styles/**"))
+  tpl := template.Must(template.New("main.sass").Funcs(funcMap).ParseGlob(dir))
   // tplVars := map[string]string {
   //     "Title": "Hello world",
   //     "Content": "Hi there",

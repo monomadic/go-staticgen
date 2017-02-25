@@ -20,10 +20,10 @@ func processSites() {
   }
 }
 
-func processSite(name string) {
+func processSite(sitename string) {
 
-  filepath.Walk("sites/"+name, func(name string, info os.FileInfo, err error) error {
-    if info == nil || name == "sites/"+name {
+  filepath.Walk("sites/"+sitename, func(name string, info os.FileInfo, err error) error {
+    if info == nil || name == "sites/"+sitename {
       return err
     }
 
@@ -33,7 +33,7 @@ func processSite(name string) {
 
     if info.IsDir() {
       makeDirIfMissing(convertSrcToDestPath(from))
-      if from == "public/"+name || dot == '.' || dot == '_' {
+      if from == "public/"+sitename || dot == '.' || dot == '_' {
         return filepath.SkipDir
       }
     } else {
@@ -47,7 +47,7 @@ func processSite(name string) {
         case ".ace":
           compileAce(from)
         case ".sass":
-          compileGcss(from, name)
+          compileGcss(from, sitename)
         default:
           copyFile(from)
         }
