@@ -9,12 +9,13 @@ The code is small and simple and designed to be easy to edit. It's strongly opin
 
 If you're a developer/designer who manages a group of static sites, and you want a better workflow, this might be a good option for you, as it revolves around the idea of code/module re-use across static sites. You could build up a 'reserve' of assets such as fonts, placeholder images, regularly used styles and framework files that are always available and you can update or manage them all in one simple directory structure without crazy dependencies or messing with the black hole of stupid that is node.js.
 
-Just a warning though, I've only added things that golang currently supports natively. Added libsass support is shown as an example, but it is an external dependency so slows compile times.
+Just a warning though, I've only added things that golang currently supports natively. There's an example of libsass support in the project, but it is an external dependency so slows compile times and is disabled.
 
 ### Features
 - manage all (or just one if you like) of your static sites in one clean directory structure, with a shared directory for code shared across all of them.
 - build everything in one go 
 - run a single server to host all sites at once (though configuration overrides via optional yaml file are coming)
+- live reload (coming very soon)
 - strong compile time error checking (coming soon)
 - strong shared asset support (coming soon)
 
@@ -27,7 +28,7 @@ Just a warning though, I've only added things that golang currently supports nat
 ## Usage
 For a usage guide simply run the command:
 ```bash
-Robs-MacBook:go-staticgen rob$ ./go-staticgen
+$ ./go-staticgen
 
   NAME:
     go-staticgen
