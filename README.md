@@ -23,11 +23,12 @@ Just a warning though, I've only added things that golang currently supports nat
 - strong compile time error checking (coming soon)
 - strong shared asset support (coming soon)
 - markdown partial support (coming soon)
+- more examples of extensibility (so you can easily add a garbage blog if you really need to)
 
 ### Technical Features
 - compiles to single binary with no external dependencies
 - can create its own directory structure from anywhere by typing `go-staticgen new <sitename>`
-- one template language (ace) and one stylesheet language (gcss)
+- one template language (ace)[https://github.com/yosssi/ace] and one stylesheet language (gcss)[https://github.com/yosssi/gcss]
 - one general purpose preprocessor (templates can easily be passed through template/text so you can add your own functions to markup easily)
 
 ## Usage
