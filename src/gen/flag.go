@@ -42,6 +42,14 @@ func processArgs() {
       // processSite(flag.Arg(1))
     }
 
+  // case flag.Arg(0) == "dupe":
+  //   p := flag.Arg(1)
+  //   if p == "" {
+  //     duplicateSite(p)
+  //   } else {
+  //     // processSite(flag.Arg(1))
+  //   }
+
   case flag.Arg(0) == "serve":
     serve()
 

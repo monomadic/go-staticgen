@@ -34,24 +34,8 @@ Just a warning though, I've only added things that golang currently supports nat
 - one general purpose preprocessor (templates can easily be passed through template/text so you can add your own functions to markup easily)
 
 ## Usage
-For a usage guide simply run the command:
-```bash
-$ ./bin/gen
 
-  NAME:
-    go-staticgen
-
-  DESCRIPTION:
-    An opinionated multi-site static generator written in golang.
-
-  COMMANDS:
-    new <sitename>       Creates a new site scaffolding.
-    build <sitename>     Process a specific site only.
-    build                Process all sites.
-    serve                Serve your site locally.
-```
-
-Sites are organised into a directory structure as follows:
+Sites are organised with a directory structure as follows:
 ```
 public                  - your built files
 sites                   - your source files
@@ -61,6 +45,8 @@ sites/example/images    - where the processor will assume images are
 sites/example/scripts   - where the processor will assume scripts are
 sites/example/styles    - where the processor will assume stylesheets are
 ```
+
+The idea is that all your sites sit directly (no subdirs) within `/sites`, any directories starting with a `.` or `_` will be ignored. These directories are expected to have certain subdirectories (eg. `styles`, `images`, `scripts`, `fonts`, and `files`) which are processed accordingly.
 
 ## Compiling
 ```bash

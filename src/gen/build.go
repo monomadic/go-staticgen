@@ -14,8 +14,12 @@ func processSites() {
 
   for _, file := range files {
     if file.IsDir() {
-      consoleInfo("\nProcessing Site: "+ file.Name())
-      processSite(file.Name())
+      dot := filepath.Base(file.Name())[0]
+      if dot != '.' && dot != '_' {
+        println(dot)
+        consoleInfo("\nProcessing Site: "+ file.Name())
+        processSite(file.Name())
+      }
     }
   }
 }
@@ -32,9 +36,10 @@ func processSite(sitename string) {
     ext := filepath.Ext(name)
 
     if info.IsDir() {
-      makeDirIfMissing(convertSrcToDestPath(from))
-      if from == "public/"+sitename || dot == '.' || dot == '_' {
+      if dot == '.' || dot == '_' {
         return filepath.SkipDir
+      } else {
+        makeDirIfMissing(convertSrcToDestPath(from))
       }
     } else {
       // for _, exclude := range [] {
@@ -78,10 +83,8 @@ func makeDirIfMissing(dir string) {
 
 func writeStringToFile(filepath string, content string) {
   fo, err := os.Create(filepath)
-  if err != nil {
-    panic(err)
-  }
-  defer fo.Close()
+  if err != nil { panic(err) }
 
+  defer fo.Close()
   fmt.Fprintf(fo, content)
 }
