@@ -1,4 +1,6 @@
-bin/*
+bin/github.com
+bin/golang.org
+bin/gopkg.in
 public/*
 src/*
 sites/*
