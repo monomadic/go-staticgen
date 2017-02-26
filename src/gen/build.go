@@ -16,7 +16,6 @@ func processSites() {
     if file.IsDir() {
       dot := filepath.Base(file.Name())[0]
       if dot != '.' && dot != '_' {
-        println(dot)
         consoleInfo("\nProcessing Site: "+ file.Name())
         processSite(file.Name())
       }
@@ -27,9 +26,7 @@ func processSites() {
 func processSite(sitename string) {
 
   filepath.Walk("sites/"+sitename, func(name string, info os.FileInfo, err error) error {
-    if info == nil || name == "sites/"+sitename {
-      return err
-    }
+    if info == nil { return err }
 
     from := filepath.ToSlash(name)
     dot := filepath.Base(name)[0]
@@ -75,8 +72,8 @@ func trimExt(filename string) string {
 }
 
 func makeDirIfMissing(dir string) {
+  consoleSuccess("[MKDIR] " + dir)
   if _, err := os.Stat(dir); os.IsNotExist(err) {
-    consoleInfo("[MKDIR] " + dir)
     os.MkdirAll(dir, os.ModePerm)
   }
 }

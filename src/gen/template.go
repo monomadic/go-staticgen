@@ -23,6 +23,6 @@ func processTemplate(from string, dir string) bytes.Buffer {
   err := tpl.Execute(&doc, nil)
   if err != nil { consoleError(err) }
 
-  consoleInfo(fmt.Sprintf("[TPL]: " + from + "\n"))
+  consoleSuccess(fmt.Sprintf("[TPL]: " + from + "\n"))
   return doc
 }
