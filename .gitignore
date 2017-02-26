@@ -1,8 +1,8 @@
-bin/github.com
-bin/golang.org
-bin/gopkg.in
+src/github.com
+src/golang.org
+src/gopkg.in
+bin/*
 public/*
-src/*
 sites/*
 
 .DS_Store

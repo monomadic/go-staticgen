@@ -36,7 +36,7 @@ Just a warning though, I've only added things that golang currently supports nat
 ## Usage
 For a usage guide simply run the command:
 ```bash
-$ ./go-staticgen
+$ ./bin/gen
 
   NAME:
     go-staticgen
@@ -64,13 +64,6 @@ sites/example/styles    - where the processor will assume stylesheets are
 
 ## Compiling
 ```bash
-# make sure your gopath is set up correctly, or just use something like:
-export GOPATH=$PWD
-export PATH=$PWD/src:$PATH
-
-# install dependencies
-go get
-
-# compile
-go build
+./build.sh
+# executable will be placed in bin/gen, you should copy it to /bin or within your path.
 ```
