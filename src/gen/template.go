@@ -15,11 +15,7 @@ func processTemplate(from string, dir string) bytes.Buffer {
   }
 
   tpl := template.Must(template.New("main.sass").Funcs(funcMap).ParseGlob(dir))
-  // tplVars := map[string]string {
-  //     "Title": "Hello world",
-  //     "Content": "Hi there",
-  // }
-  // tpl.ExecuteTemplate(os.Stdout, tpl.Name(), tplVars)
+
   err := tpl.Execute(&doc, nil)
   if err != nil { consoleError(err) }
 

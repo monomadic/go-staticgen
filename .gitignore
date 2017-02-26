@@ -4,5 +4,6 @@ src/gopkg.in
 bin/*
 public/*
 sites/*
+*.sh
 
 .DS_Store

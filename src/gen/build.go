@@ -12,6 +12,9 @@ func processSites() {
   files, err := ioutil.ReadDir("sites")
   if err != nil { checkFatal(err) }
 
+  os.RemoveAll("public")
+  makeDirIfMissing("public")
+
   for _, file := range files {
     if file.IsDir() {
       dot := filepath.Base(file.Name())[0]
@@ -24,7 +27,6 @@ func processSites() {
 }
 
 func processSite(sitename string) {
-
   filepath.Walk("sites/"+sitename, func(name string, info os.FileInfo, err error) error {
     if info == nil { return err }
 

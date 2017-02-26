@@ -50,6 +50,11 @@ The idea is that all your sites sit directly (no subdirs) within `/sites`, any d
 
 ## Compiling
 ```bash
-./build.sh
+# an example of compiling, set GOPATH however you prefer.
+export GOBIN=$PWD/bin
+export GOPATH=$PWD
+go build -v gen
+mkdir ./bin
+mv ./gen ./bin/gen
 # executable will be placed in bin/gen, you should copy it to /bin or within your path.
 ```
