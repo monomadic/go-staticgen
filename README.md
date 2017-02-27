@@ -24,6 +24,7 @@ Just a warning though, I've only added things that golang currently supports nat
 - live reload
 
 #### Wishlist
+- error messages shown in the browser (up next)
 - strong compile time error checking (coming soon)
 - strong shared asset support (coming soon)
 - markdown partial support (coming soon)
