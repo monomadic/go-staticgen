@@ -10,7 +10,7 @@ import (
 func compileAce(filename string) {
   var doc bytes.Buffer
 
-  if tpl, err := ace.Load(trimExt(filename), "", nil); err == nil {
+  if tpl, err := ace.Load(trimExt(filename), "", &ace.Options{DynamicReload: true}); err == nil {
 
     err := tpl.Execute(&doc, nil)
     if err != nil { panic(err) }
@@ -18,6 +18,7 @@ func compileAce(filename string) {
     toMake := strings.Replace(filename, "sites", "public", 1)
     toMake = strings.Replace(toMake, "ace", "html", 1)
 
+    println(doc.String())
     writeStringToFile(toMake, doc.String())
 
     consoleSuccess(fmt.Sprintf("[ACE]: " + filename + " => " + toMake + "\n"))
