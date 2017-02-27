@@ -5,26 +5,13 @@ import (
   "net/http"
 
   "github.com/jaschaephraim/lrserver"
-  // "gopkg.in/fsnotify.v1"
   "github.com/dietsche/rfsnotify"
   "time"
 )
 
-// func serve() {
-//   if _, err := os.Stat("public"); os.IsNotExist(err) {
-//     consoleError(err)
-//     println("Directory ./public does not exist. Please run gen build first.")
-//     os.Exit(1)
-//   }
-
-//   fs := http.FileServer(http.Dir("public"))
-//   http.Handle("/", fs)
-
-//   log.Println("Listening on http://localhost:9000/")
-//   http.ListenAndServe(":9000", nil)
-// }
-
 func serve() {
+  processSites()
+  
   // Create file watcher
   watcher, err := rfsnotify.NewWatcher()
   if err != nil { log.Fatalln(err) }

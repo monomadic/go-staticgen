@@ -18,7 +18,6 @@ func compileAce(filename string) {
     toMake := strings.Replace(filename, "sites", "public", 1)
     toMake = strings.Replace(toMake, "ace", "html", 1)
 
-    println(doc.String())
     writeStringToFile(toMake, doc.String())
 
     consoleSuccess(fmt.Sprintf("[ACE]: " + filename + " => " + toMake + "\n"))
