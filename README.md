@@ -21,7 +21,9 @@ Just a warning though, I've only added things that golang currently supports nat
 - manage all (or just one if you like) of your static sites in one clean directory structure, with a shared directory for code shared across all of them.
 - build everything in one go 
 - run a single server to host all sites at once (though configuration overrides via optional yaml file are coming)
-- live reload (coming very soon)
+- live reload
+
+#### Wishlist
 - strong compile time error checking (coming soon)
 - strong shared asset support (coming soon)
 - markdown partial support (coming soon)
