@@ -29,8 +29,13 @@ func serve() {
       select {
       case event := <-watcher.Events:
         consoleInfo("[FSNotify] changes detected: " + event.Name + " " + time.Now().Format(time.RFC3339))
-        lr.Reload(event.Name)
-        processSites()
+        
+        if err := processSites(); err != nil {
+          println("WHAT")
+          lr.Reload("guppo")
+        } else {
+          lr.Reload(event.Name)
+        }
       case err := <-watcher.Errors:
         log.Println(err)
       }

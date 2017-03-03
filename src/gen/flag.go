@@ -37,7 +37,9 @@ func processArgs() {
   case flag.Arg(0) == "build":
     p := flag.Arg(1)
     if p == "" {
-      processSites()
+      err := processSites(); if err != nil {
+        consoleError(err)
+      }
     } else {
       // processSite(flag.Arg(1))
     }

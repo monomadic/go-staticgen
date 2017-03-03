@@ -8,9 +8,9 @@ import (
   "io/ioutil"
 )
 
-func processSites() {
+func processSites() error {
   files, err := ioutil.ReadDir("sites")
-  if err != nil { checkFatal(err) }
+  if err != nil { return err }
 
   os.RemoveAll("public")
   makeDirIfMissing("public")
@@ -20,14 +20,17 @@ func processSites() {
       dot := filepath.Base(file.Name())[0]
       if dot != '.' && dot != '_' {
         consoleInfo("\nProcessing Site: "+ file.Name())
-        processSite(file.Name())
+        if err := processSite(file.Name()); err != nil {
+          return err
+        }
       }
     }
   }
+  return nil
 }
 
-func processSite(sitename string) {
-  filepath.Walk("sites/"+sitename, func(name string, info os.FileInfo, err error) error {
+func processSite(sitename string) error {
+  err := filepath.Walk("sites/"+sitename, func(name string, info os.FileInfo, err error) error {
     if info == nil { return err }
 
     from := filepath.ToSlash(name)
@@ -49,16 +52,28 @@ func processSite(sitename string) {
       if dot != '.' && dot != '_' {
         switch ext {
         case ".ace":
-          compileAce(from)
+          if err := compileAce(from); err != nil {
+            return err
+          }
         case ".sass":
-          compileGcss(from, sitename)
+          if err := compileGcss(from, sitename); err != nil {
+            return err
+          }
         default:
-          copyFile(from)
+          if err := copyFile(from); err != nil {
+            return err
+          }
         }
       }
     }
-    return err
+    return nil
   })
+
+  if err != nil {
+    return err
+  } else {
+    return nil
+  }
 }
 
 func convertSrcToDestPath(filename string) string {
@@ -80,10 +95,14 @@ func makeDirIfMissing(dir string) {
   }
 }
 
-func writeStringToFile(filepath string, content string) {
-  fo, err := os.Create(filepath)
-  if err != nil { panic(err) }
-
-  defer fo.Close()
-  fmt.Fprintf(fo, content)
+func writeStringToFile(filepath string, content string) error {
+  if fo, err := os.Create(filepath); err != nil {
+    return err
+  } else {
+    defer fo.Close()
+    if _, err := fmt.Fprintf(fo, content); err != nil {
+      return err
+    }
+  }
+  return nil
 }

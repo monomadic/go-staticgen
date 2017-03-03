@@ -6,12 +6,13 @@ import (
   "fmt"
 )
 
-func copyFile(from string) {
+func copyFile(from string) error {
   if err := cp(from, convertSrcToDestPath(from)); err != nil {
-    consoleError(err)
+    return err
   } else {
     consoleSuccess(fmt.Sprintf("[COPY] %s => %s\n", from, convertSrcToDestPath(from)))
   }
+  return nil
 }
 
 func cp(src, dst string) error {
