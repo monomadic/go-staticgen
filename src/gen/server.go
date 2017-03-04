@@ -10,7 +10,7 @@ import (
 )
 
 func serve() {
-  processSites()
+  if err := processSites(); err != nil { consoleError(err) }
   
   // Create file watcher
   watcher, err := rfsnotify.NewWatcher()
@@ -30,9 +30,9 @@ func serve() {
       case event := <-watcher.Events:
         consoleInfo("[FSNotify] changes detected: " + event.Name + " " + time.Now().Format(time.RFC3339))
         
-        if err := processSites(); err != nil {
-          println("WHAT")
-          lr.Reload("guppo")
+        if err := processFile(event.Name, "robsaunders"); err != nil {
+          consoleError(err)
+          lr.Reload(event.Name)
         } else {
           lr.Reload(event.Name)
         }

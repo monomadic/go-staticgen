@@ -30,49 +30,39 @@ func processSites() error {
 }
 
 func processSite(sitename string) error {
-  err := filepath.Walk("sites/"+sitename, func(name string, info os.FileInfo, err error) error {
+  return filepath.Walk("sites/"+sitename, func(name string, info os.FileInfo, err error) error {
     if info == nil { return err }
 
     from := filepath.ToSlash(name)
     dot := filepath.Base(name)[0]
-    ext := filepath.Ext(name)
 
-    if info.IsDir() {
-      if dot == '.' || dot == '_' {
-        return filepath.SkipDir
+    if dot != '.' && dot != '_' {
+      if info.IsDir() {
+        if makeDirIfMissing(convertSrcToDestPath(from)); err != nil {
+          return err
+        }
       } else {
-        makeDirIfMissing(convertSrcToDestPath(from))
-      }
-    } else {
-      // for _, exclude := range [] {
-      //   if strings.HasSuffix(from, exclude) {
-      //     return err
-      //   }
-      // }
-      if dot != '.' && dot != '_' {
-        switch ext {
-        case ".ace":
-          if err := compileAce(from); err != nil {
-            return err
-          }
-        case ".sass":
-          if err := compileGcss(from, sitename); err != nil {
-            return err
-          }
-        default:
-          if err := copyFile(from); err != nil {
-            return err
-          }
+        consoleInfo("Processing file: " + from)
+        if err := processFile(from, sitename); err != nil {
+          return err
         }
       }
+      return nil
+    } else {
+      return nil
     }
-    return nil
-  })
-
-  if err != nil {
     return err
-  } else {
-    return nil
+  })
+}
+
+func processFile(filename string, sitename string) error {
+  switch filepath.Ext(filename) {
+  case ".ace":
+    return compileAce(filename)
+  case ".sass":
+    return compileGcss(filename, sitename)
+  default:
+    return copyFile(filename)
   }
 }
 
@@ -88,10 +78,15 @@ func trimExt(filename string) string {
   return strings.TrimSuffix(filename, filepath.Ext(filename))
 }
 
-func makeDirIfMissing(dir string) {
-  consoleSuccess("[MKDIR] " + dir)
-  if _, err := os.Stat(dir); os.IsNotExist(err) {
-    os.MkdirAll(dir, os.ModePerm)
+func makeDirIfMissing(dir string) error {
+  if _, err := os.Stat(dir); err != nil {
+    if os.IsNotExist(err) {
+      consoleSuccess("[MKDIR] " + dir)
+      os.MkdirAll(dir, os.ModePerm)
+    }
+    return nil
+  } else {
+    return err
   }
 }
 
