@@ -2,6 +2,7 @@ package main
 
 import (
   "github.com/yosssi/ace"
+  "html/template"
   "bytes"
   "strings"
   "fmt"
@@ -10,7 +11,19 @@ import (
 func compileAce(filename string) error {
   var doc bytes.Buffer
 
-  if tpl, err := ace.Load(trimExt(filename), "", &ace.Options{DynamicReload: true}); err == nil {
+  funcMap := template.FuncMap{
+    "image_tag": func(s string) template.HTML {
+      return template.HTML("<img src='"+s+"'>")
+    },
+    "img": func(s string) template.HTML {
+      return template.HTML(s)
+    },
+  }
+
+  if tpl, err := ace.Load(trimExt(filename), "", &ace.Options{
+    FuncMap: funcMap,
+    DynamicReload: true,
+    }); err == nil {
 
     if err := tpl.Execute(&doc, nil); err != nil {
       return err
