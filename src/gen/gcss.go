@@ -26,5 +26,3 @@ func compileGcss(from string, sitename string) error {
   }
   return nil
 }
-
-

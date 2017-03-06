@@ -90,6 +90,18 @@ func makeDirIfMissing(dir string) error {
   }
 }
 
+func removeFileIfExists(filename string) {
+  os.RemoveAll("public/error.html")
+}
+
+func fileExists(filename string) bool {
+  if _, err := os.Stat(filename); err == nil {
+    return true
+  } else {
+    return false
+  }
+}
+
 func writeStringToFile(filepath string, content string) error {
   if fo, err := os.Create(filepath); err != nil {
     return err

@@ -3,6 +3,7 @@ package main
 import (
   "log"
   "net/http"
+  "os"
 
   "github.com/jaschaephraim/lrserver"
   "github.com/dietsche/rfsnotify"
@@ -10,7 +11,7 @@ import (
 )
 
 func serve() {
-  if err := processSites(); err != nil { consoleError(err) }
+  if err := processSites(); err != nil { createError("", err); os.Exit(1) }
   
   // Create file watcher
   watcher, err := rfsnotify.NewWatcher()
@@ -29,9 +30,10 @@ func serve() {
       select {
       case event := <-watcher.Events:
         consoleInfo("[FSNotify] changes detected: " + event.Name + " " + time.Now().Format(time.RFC3339))
-        
+        removeFileIfExists("public/error.html")
+
         if err := processFile(event.Name, "robsaunders"); err != nil {
-          consoleError(err)
+          createError(event.Name, err)
           lr.Reload(event.Name)
         } else {
           lr.Reload(event.Name)
@@ -46,9 +48,33 @@ func serve() {
   if err != nil { log.Fatalln(err) }
   // <-done
 
-  fs := http.FileServer(http.Dir("public"))
-  http.Handle("/", fs)
-
   log.Println("Listening on http://localhost:9000/")
+  serveStatic()
+}
+
+func createError(filename string, err error) {
+  var templateError = ""
+
+  if filename == "" {
+    templateError = err.Error()
+  } else {
+    templateError = "<strong>Error processing: " + filename + "</strong>" + "<p>" + err.Error() + "</p>"
+  }
+  if writeErr := writeStringToFile("public/error.html", templateError); writeErr != nil {
+    consoleError(writeErr)
+  }
+  consoleError(err)
+}
+
+func serveStatic() {
+  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    consoleInfo("[HTTP] requested: " + r.URL.Path[1:])
+    if (fileExists("public/error.html")) {
+      http.ServeFile(w, r, "public/error.html")
+    } else {
+      http.ServeFile(w, r, "public/" + r.URL.Path[1:])
+    }
+  })
+
   http.ListenAndServe(":9000", nil)
 }
