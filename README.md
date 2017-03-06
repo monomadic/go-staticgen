@@ -1,5 +1,15 @@
 # go-staticgen
-A simpler re-thinking of static site generators in golang. If you're a developer/designer who manages a group of static sites, and you want a better workflow, this might be a good option for you, as it revolves around the idea of code/module re-use across static sites. You could build up a 'reserve' of assets such as fonts, placeholder images, regularly used styles and framework files that are always available and you can update or manage them all in one simple directory structure without crazy dependencies or messing with the black hole of stupid that is node.js.
+A simpler re-thinking of static site generators in golang.
+
+- opinionated workflow
+- manage multiple static sites at once, with shared code/assets
+- doesn't treat you like a wordpress template blogger
+- livereload
+- ace (like haml) + gcss (like sass)
+- extremely fast
+- simple, easy to understand and extend code
+
+If you're a developer/designer who manages a group of static sites, and you want a better workflow, this might be a good option for you, as it revolves around the idea of code/module re-use across static sites. You could build up a 'reserve' of assets such as fonts, placeholder images, regularly used styles and framework files that are always available and you can update or manage them all in one simple directory structure without crazy dependencies or messing with the black hole of stupid that is node.js.
 
 ![screenshot](screenshot.png)
 
