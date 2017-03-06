@@ -1,7 +1,7 @@
 # go-staticgen
 A simpler re-thinking of static site generators in golang. If you're a developer/designer who manages a group of static sites, and you want a better workflow, this might be a good option for you, as it revolves around the idea of code/module re-use across static sites. You could build up a 'reserve' of assets such as fonts, placeholder images, regularly used styles and framework files that are always available and you can update or manage them all in one simple directory structure without crazy dependencies or messing with the black hole of stupid that is node.js.
 
-Note this is in heavy heavy beta right now as I've only been working on it a few days.
+![screenshot][screenshot.png]
 
 ## OMFG ANOTHER STATIC SITE GENERATOR?
 Wow. Calm down. After trying many static generators I realised there's a core problem with all of them - they focus on non-technical users who want to make blogs. Nothing against this kind of user, but it's not me. I want to make actual websites that have varied structure. I don't need the program to force me into a structure I dont want to work in, which usually is:
