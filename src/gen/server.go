@@ -4,7 +4,6 @@ import (
   "log"
   "net/http"
   "os"
-
   "github.com/jaschaephraim/lrserver"
   "github.com/dietsche/rfsnotify"
   "time"
@@ -30,9 +29,8 @@ func serve() {
       select {
       case event := <-watcher.Events:
         consoleInfo("[FSNotify] changes detected: " + event.Name + " " + time.Now().Format(time.RFC3339))
-        removeFileIfExists("public/error.html")
-
-        if err := processFile(event.Name, "robsaunders"); err != nil {
+        consoleInfo("\nProcessing Site: "+ filepathToSitename(event.Name))
+        if err := processSite(filepathToSitename(event.Name)); err != nil {
           createError(event.Name, err)
           lr.Reload(event.Name)
         } else {

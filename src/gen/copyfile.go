@@ -10,7 +10,7 @@ func copyFile(from string) error {
   if err := cp(from, convertSrcToDestPath(from)); err != nil {
     return err
   } else {
-    consoleSuccess(fmt.Sprintf("[COPY] %s => %s\n", from, convertSrcToDestPath(from)))
+    consoleSuccess(fmt.Sprintf("\t%s\n", convertSrcToDestPath(from)))
   }
   return nil
 }

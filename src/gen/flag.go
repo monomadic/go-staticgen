@@ -41,7 +41,10 @@ func processArgs() {
         consoleError(err)
       }
     } else {
-      // processSite(flag.Arg(1))
+      os.RemoveAll("public/"+flag.Arg(1))
+      err := processSite(flag.Arg(1)); if err != nil {
+        consoleError(err)
+      }
     }
 
   // case flag.Arg(0) == "dupe":

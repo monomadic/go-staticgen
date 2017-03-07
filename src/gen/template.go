@@ -3,25 +3,29 @@ package main
 import (
   "bytes"
   "strings"
-  "fmt"
   "text/template"
+  "path/filepath"
 )
 
 func processTemplate(from string, dir string) (bytes.Buffer, error) {
   var doc bytes.Buffer
+  var siteName = filepathToSitename(from)
 
   funcMap := template.FuncMap {
-      "title": strings.Title,
+    "title": strings.Title,
   }
 
-  tpl := template.
-    Must(template.New("main.sass").
-      Funcs(funcMap).
-      ParseGlob(dir))
+  baseName := filepath.Base(from)
+  globbedFiles, _ := PartialGlob("sites/"+siteName+"/styles", ".sass")
+
+  tpl := template.New(baseName).Funcs(funcMap)
+
+  if parsedTpl, err := tpl.ParseFiles(globbedFiles...); err != nil {
+    return doc, err
+  } else {
+    tpl = parsedTpl
+  }
 
   err := tpl.Execute(&doc, nil)
-  if err != nil { return doc, err }
-
-  consoleSuccess(fmt.Sprintf("[TPL]: " + from + "\n"))
-  return doc, nil
+  return doc, err
 }
