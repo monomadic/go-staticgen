@@ -1,13 +1,15 @@
 # go-staticgen
 A simpler re-thinking of static site generators in golang.
 
+- compiles to single binary with no external dependencies
 - opinionated workflow
 - manage multiple static sites at once, with shared code/assets
 - doesn't treat you like a wordpress template blogger
 - livereload
-- ace (like haml) + gcss (like sass)
+- one template language (ace)[https://github.com/yosssi/ace] and one stylesheet language (gcss)[https://github.com/yosssi/gcss] that are 100% go
 - extremely fast
 - simple, easy to understand and extend code
+- error messages shown in browser and stdout
 
 If you're a developer/designer who manages a group of static sites, and you want a better workflow, this might be a good option for you, as it revolves around the idea of code/module re-use across static sites. You could build up a 'reserve' of assets such as fonts, placeholder images, regularly used styles and framework files that are always available and you can update or manage them all in one simple directory structure without crazy dependencies or messing with the black hole of stupid that is node.js.
 
@@ -28,36 +30,39 @@ The code is small and simple and designed to be easy to edit. It's strongly opin
 
 Just a warning though, I've only added things that golang currently supports natively. There's an example of libsass support in the project, but it is an external dependency so slows compile times and is disabled.
 
-### Features
-- manage all (or just one if you like) of your static sites in one clean directory structure, with a shared directory for code shared across all of them.
-- build everything in one go 
-- run a single server to host all sites at once (though configuration overrides via optional yaml file are coming)
-- live reload
-
-#### Wishlist
-- error messages shown in the browser (up next)
-- strong compile time error checking (coming soon)
-- strong shared asset support (coming soon)
-- markdown partial support (coming soon)
-- more examples of extensibility (so you can easily add a garbage blog if you really need to)
-
-### Technical Features
-- compiles to single binary with no external dependencies
-- can create its own directory structure from anywhere by typing `go-staticgen new <sitename>`
-- one template language (ace)[https://github.com/yosssi/ace] and one stylesheet language (gcss)[https://github.com/yosssi/gcss]
-- one general purpose preprocessor (templates can easily be passed through template/text so you can add your own functions to markup easily)
-
 ## Usage
 
-Sites are organised with a directory structure as follows:
 ```
-public                  - your built files
-sites                   - your source files
-sites/_shared           - anything you want to share between projects
-sites/example           - an example site
-sites/example/images    - where the processor will assume images are
-sites/example/scripts   - where the processor will assume scripts are
-sites/example/styles    - where the processor will assume stylesheets are
+  NAME:
+    go-staticgen
+
+  DESCRIPTION:
+    An opinionated multi-site static generator written in golang.
+
+  COMMANDS:
+    new <sitename>       Creates a new site scaffolding.
+    build <sitename>     Process a specific site only.
+    build                Process all sites.
+    serve                Serve your site locally.
+```
+
+Directory structure of most sites is as follows:
+```
+public        # compiled files get generated into public
+sites         # source files here
+  _shared     # shared resources go here.
+    images
+    pages
+  site1
+    images
+    styles
+    pages
+    scripts
+    files
+  site2
+    images
+    styles
+    pages
 ```
 
 The idea is that all your sites sit directly (no subdirs) within `/sites`, any directories starting with a `.` or `_` will be ignored. These directories are expected to have certain subdirectories (eg. `styles`, `images`, `scripts`, `fonts`, and `files`) which are processed accordingly.
