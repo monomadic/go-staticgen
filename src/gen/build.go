@@ -13,7 +13,7 @@ func processSites() error {
   if err != nil { return err }
 
   os.RemoveAll("public")
-  if err := makeDirIfMissing("public"); err != nil { return err }
+  // if err := makeDirIfMissing("public"); err != nil { return err }
 
   for _, file := range files {
     if file.IsDir() {
@@ -32,7 +32,7 @@ func processSites() error {
 
 func processSite(sitename string) error {
   os.RemoveAll("public/"+sitename)
-  if err := makeDirIfMissing("public/"+sitename); err != nil { return err }
+  // if err := makeDirIfMissing("public/"+sitename); err != nil { return err }
   if err := processPages(sitename); err != nil { return err }
   if err := processStyles(sitename); err != nil { return err }
   if fileExists("sites/"+sitename+"/images") {
@@ -121,8 +121,10 @@ func fileExists(filename string) bool {
   }
 }
 
-func writeStringToFile(filepath string, content string) error {
-  if fo, err := os.Create(filepath); err != nil {
+func writeStringToFile(path string, content string) error {
+  if err := makeDirIfMissing(filepath.Dir(path)); err != nil { return err }
+
+  if fo, err := os.Create(path); err != nil {
     return err
   } else {
     defer fo.Close()
