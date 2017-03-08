@@ -1,12 +1,12 @@
 # go-staticgen
 A simpler re-thinking of static site generators in golang.
 
+- one template language [ace](https://github.com/yosssi/ace) (like haml) and one stylesheet language [gcss](https://github.com/yosssi/gcss) (like slim/sass) that are 100% golang.
 - compiles to single binary with no external dependencies
-- opinionated workflow
+- livereload with errors shown in-browser
+- opinionated workflow (see folder structure)
 - manage multiple static sites at once, with shared code/assets
 - doesn't treat you like a wordpress template blogger
-- livereload
-- one template language (ace)[https://github.com/yosssi/ace] and one stylesheet language (gcss)[https://github.com/yosssi/gcss] that are 100% go
 - extremely fast
 - simple, easy to understand and extend code
 - error messages shown in browser and stdout
@@ -46,7 +46,7 @@ Just a warning though, I've only added things that golang currently supports nat
     serve                Serve your site locally.
 ```
 
-Directory structure of most sites is as follows:
+## Folder Structure
 ```
 public        # compiled files get generated into public
 sites         # source files here
@@ -76,4 +76,17 @@ go build -v gen
 mkdir ./bin
 mv ./gen ./bin/gen
 # executable will be placed in bin/gen, you should copy it to /bin or within your path.
+```
+
+## Templates
+
+### Go Templates
+All templates are first run through the golang standard templating processor, so you will get all benefits and helpers provided by it. See [here](https://golang.org/pkg/text/template/) and [here](https://golang.org/pkg/html/template/).
+
+Additionally, there are helper methods provided by go-staticgen itself.
+
+### shared_file file
+Copies a file from the `_shared` directory, relative to itself. Use this inline in your ace/gcss.
+```haml
+link href="{{ shared_file "styles/pure-min.css" }}" rel="stylesheet" type="text/css"
 ```
