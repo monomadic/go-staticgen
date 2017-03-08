@@ -2,7 +2,6 @@ package main
 
 import (
   "bytes"
-  "strings"
   "text/template"
   "path/filepath"
 )
@@ -12,7 +11,7 @@ func processTemplate(from string, dir string) (bytes.Buffer, error) {
   var siteName = filepathToSitename(from)
 
   funcMap := template.FuncMap {
-    "title": strings.Title,
+    "shared_file": helperCopyFile,
   }
 
   baseName := filepath.Base(from)
@@ -28,4 +27,13 @@ func processTemplate(from string, dir string) (bytes.Buffer, error) {
 
   err := tpl.Execute(&doc, nil)
   return doc, err
+}
+
+func helperCopyFile(from string) string {
+  shared_from := "sites/_shared/" + from
+  shared_to_dir := convertSrcToDestPath(filepath.Dir(shared_from))
+  if err := makeDirIfMissing(shared_to_dir); err != nil { createError(shared_from, err) }
+  err := copyFile(shared_from)
+  if err != nil { createError(shared_from, err) }
+  return from
 }

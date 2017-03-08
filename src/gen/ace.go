@@ -17,6 +17,7 @@ func compileAce(filename string) error {
     "img": func(s string) template.HTML {
       return template.HTML(s)
     },
+    "shared_file": helperCopyFile,
   }
 
   if tpl, err := ace.Load(aceInputFilePath(filename), "", &ace.Options{
