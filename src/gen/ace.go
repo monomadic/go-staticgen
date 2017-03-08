@@ -18,6 +18,8 @@ func compileAce(filename string) error {
       return template.HTML(s)
     },
     "shared_file": helperCopyFile,
+    "current_template": func () string { return filename },
+    "copy": func (from string) string { return helperCopyFile(from, filename) },
   }
 
   if tpl, err := ace.Load(aceInputFilePath(filename), "", &ace.Options{
