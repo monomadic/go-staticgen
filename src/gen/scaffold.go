@@ -1,37 +1,36 @@
 package main
 
 import (
-  "fmt"
 )
 
-func scaffold(name string) {
+func scaffold(name string) error {
+  var err error
   consoleInfo("Generating new site scaffold: " + name)
-  ensureDirectoryStructure()
-  makeDirIfMissing("sites/" + name)
-  makeDirIfMissing("sites/" + name + "/scripts/")
-  makeDirIfMissing("sites/" + name + "/styles/")
-  makeDirIfMissing("sites/" + name + "/images/")
-  writeStringToFile("sites/" + name + "/index.ace", indexAceTemplate(name))
-  consoleSuccess(fmt.Sprintf("[ACE] sites/%s/index.ace", name))
-  writeStringToFile("sites/" + name + "/_head.ace", indexAceHead(name))
-  consoleSuccess(fmt.Sprintf("[ACE] sites/%s/_head.ace", name))
-  writeStringToFile("sites/" + name + "/styles/main.sass", sassStyle())
-  consoleSuccess(fmt.Sprintf("[SASS] sites/%s/styles/main.sass", name))
-  writeStringToFile("sites/" + name + "/styles/_partial.sass", sassPartial())
-  consoleSuccess(fmt.Sprintf("[SASS] sites/%s/styles/_partial.sass", name))
+  err = ensureDirectoryStructure(name)
+  err = writeStringToFile("sites/" + name + "/pages/index.ace", indexAceTemplate())
+  err = writeStringToFile("sites/" + name + "/pages/_head.ace", indexAceHead(name))
+  err = writeStringToFile("sites/" + name + "/styles/main.sass", sassStyle())
+  err = writeStringToFile("sites/" + name + "/styles/_partial.sass", sassPartial())
+
+  if err != nil { consoleError(err) }
+  return err
 }
 
-func ensureDirectoryStructure() {
-  // ensures the most basic directory structure is in place
-  makeDirIfMissing("public/")
-  makeDirIfMissing("sites/")
+func ensureDirectoryStructure(name string) error {
+  var err error
+  // makeDirIfMissing("public/")
+  // makeDirIfMissing("sites/")
+  err = makeDirIfMissing("sites/" + name + "/scripts/")
+  err = makeDirIfMissing("sites/" + name + "/styles/")
+  err = makeDirIfMissing("sites/" + name + "/images/")
+  return err
 }
 
-func indexAceTemplate(name string) string {
+func indexAceTemplate() string {
   return `= doctype html
 
 html lang=en
-  = include sites/` + name + `/_head
+  = include _head
 
   body
     h1 Welcome to the site
