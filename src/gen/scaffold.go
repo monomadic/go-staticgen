@@ -10,7 +10,7 @@ func scaffold(name string) error {
   err = writeStringToFile("sites/" + name + "/pages/index.ace", indexAceTemplate())
   err = writeStringToFile("sites/" + name + "/pages/_head.ace", indexAceHead(name))
   err = writeStringToFile("sites/" + name + "/styles/main.sass", sassStyle())
-  err = writeStringToFile("sites/" + name + "/styles/_partial.sass", sassPartial())
+  err = writeStringToFile("sites/" + name + "/styles/_settings.sass", sassPartial())
 
   if err != nil { consoleError(err) }
   return err
@@ -45,12 +45,13 @@ func indexAceHead(name string) string {
 }
 
 func sassStyle() string {
-  return `{{ template "_partial.sass" }}
+  return `{{ template "_settings.sass" }}
 
 html
   font-family: Helvetica
   text-align: center
   padding-top: 40px
+  background-color: $background-color
 
 h1
   color: #00F4D1
@@ -70,7 +71,7 @@ a
 }
 
 func sassPartial() string {
-  return `body
-  background-color: red
+  return `$background-color: white
+$text-color: #222
 `
 }
