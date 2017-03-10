@@ -31,6 +31,7 @@ func processSites() error {
 }
 
 func processSite(sitename string) error {
+  os.RemoveAll("public/error.html")
   os.RemoveAll("public/"+sitename)
   // if err := makeDirIfMissing("public/"+sitename); err != nil { return err }
   if err := processPages(sitename); err != nil { return err }
