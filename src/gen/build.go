@@ -12,7 +12,7 @@ func processSites() error {
   files, err := ioutil.ReadDir("sites")
   if err != nil { return err }
 
-  os.RemoveAll("public")
+  // os.RemoveAll("public")
   // if err := makeDirIfMissing("public"); err != nil { return err }
 
   for _, file := range files {
@@ -31,8 +31,8 @@ func processSites() error {
 }
 
 func processSite(sitename string) error {
-  os.RemoveAll("public/error.html")
-  os.RemoveAll("public/"+sitename)
+  os.RemoveAll("public/*.*")
+  // os.RemoveAll("public/"+sitename)
   // if err := makeDirIfMissing("public/"+sitename); err != nil { return err }
   if err := processPages(sitename); err != nil { return err }
   if err := processStyles(sitename); err != nil { return err }

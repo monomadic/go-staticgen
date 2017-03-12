@@ -65,6 +65,7 @@ func createError(filename string, err error) {
 }
 
 func serveStatic() {
+  http.HandleFunc("/fonts", fontPreview)
   http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
     consoleInfo("[HTTP] requested: " + r.URL.Path[1:])
     if (fileExists("public/error.html")) {
@@ -75,4 +76,7 @@ func serveStatic() {
   })
 
   http.ListenAndServe(":9000", nil)
+}
+
+func fontPreview(w http.ResponseWriter, r *http.Request) {
 }
