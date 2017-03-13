@@ -1,4 +1,5 @@
-# go-staticgen
+<img src="logo.png" alt="go-staticgen" height="75">
+
 A simpler re-thinking of static site generators in golang.
 
 - one template language [ace](https://github.com/yosssi/ace) (like haml) and one stylesheet language [gcss](https://github.com/yosssi/gcss) (like slim/sass) that are 100% golang.
