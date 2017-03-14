@@ -1,3 +1,5 @@
+// command line router
+
 package main
 
 import (
@@ -6,12 +8,12 @@ import (
   "os"
 )
 
-func processArgs() {
+func (cfg *config) processArgs() {
   flag.Usage = func() {
-  fmt.Println(`
+  fmt.Printf(`
 
   NAME:
-    go-staticgen
+    %s
 
   DESCRIPTION:
     An opinionated multi-site static generator written in golang.
@@ -21,7 +23,8 @@ func processArgs() {
     build <sitename>     Process a specific site only.
     build                Process all sites.
     serve                Serve your site locally.
-`[1:])
+
+`[1:], cfg.Name)
   }
   flag.Parse()
 
@@ -55,8 +58,8 @@ func processArgs() {
   //     // processSite(flag.Arg(1))
   //   }
 
-  case flag.Arg(0) == "serve":
-    serve()
+  case flag.Arg(0) == "serve" || flag.Arg(0) == "s":
+    cfg.serve()
 
   default:
     flag.Usage()

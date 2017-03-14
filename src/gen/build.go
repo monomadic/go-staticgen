@@ -19,7 +19,7 @@ func processSites() error {
     if file.IsDir() {
       dot := filepath.Base(file.Name())[0]
       if dot != '.' && dot != '_' {
-        consoleInfo("\nProcessing Site: "+ file.Name())
+        consoleInfo("\nProcessing Site: http://localhost:9000/"+ file.Name())
         if err := makeDirIfMissing("public/" + file.Name()); err != nil { return err }
         if err := processSite(file.Name()); err != nil {
           return err
@@ -114,14 +114,6 @@ func removeFileIfExists(filename string) {
   os.RemoveAll("public/error.html")
 }
 
-func fileExists(filename string) bool {
-  if _, err := os.Stat(filename); err == nil {
-    return true
-  } else {
-    return false
-  }
-}
-
 func writeStringToFile(path string, content string) error {
   if err := makeDirIfMissing(filepath.Dir(path)); err != nil { return err }
 
@@ -174,26 +166,3 @@ func FileTypeGlob(dirpath string, extMask string) ([]string, error) {
   return files, nil
 }
 
-func RecursiveGlob(dirpath string) ([]string, error) {
-  var paths []string
-  err := filepath.Walk(dirpath, func(path string, info os.FileInfo, err error) error {
-    if err != nil { return err }
-
-    if !info.IsDir() {
-      filename := filepath.Base(path)
-      dot := filepath.Base(path)[0]
-
-      if dot != '.' && filename != ".DS_Store" {
-        paths = append(paths, path)
-      }
-    } else {
-      if err := makeDirIfMissing(path); err != nil { return err }
-    }
-
-    return nil
-  })
-  if err != nil {
-    return nil, err
-  }
-  return paths, nil
-}

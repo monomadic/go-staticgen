@@ -4,5 +4,10 @@ import (
 )
 
 func main() {
-  processArgs()
+  var cfg config
+  cfg.Host = "localhost"
+  cfg.Port = "9000"
+  cfg.Name = "go-staticgen"
+
+  cfg.processArgs()
 }

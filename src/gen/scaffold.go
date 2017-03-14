@@ -1,3 +1,6 @@
+// scaffold.go
+//  templates used during the 'gen init' phase.
+
 package main
 
 import (
@@ -18,8 +21,6 @@ func scaffold(name string) error {
 
 func ensureDirectoryStructure(name string) error {
   var err error
-  // makeDirIfMissing("public/")
-  // makeDirIfMissing("sites/")
   err = makeDirIfMissing("sites/" + name + "/scripts/")
   err = makeDirIfMissing("sites/" + name + "/styles/")
   err = makeDirIfMissing("sites/" + name + "/images/")
