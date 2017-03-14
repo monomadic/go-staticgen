@@ -4,7 +4,6 @@ import (
   "fmt"
   "os"
   "path/filepath"
-  "strings"
   "io/ioutil"
 )
 
@@ -84,85 +83,5 @@ func processStyles(sitename string) error {
     }
   }
   return err
-}
-
-func convertSrcToDestPath(filename string) string {
-  return strings.Replace(filename, "sites", "public", 1)
-}
-
-func findLayoutFile(filename string) string {
-  return filepath.Dir(filename) + "/_layout"
-}
-
-func trimExt(filename string) string {
-  return strings.TrimSuffix(filename, filepath.Ext(filename))
-}
-
-func makeDirIfMissing(dir string) error {
-  if _, err := os.Stat(dir); err != nil {
-    if os.IsNotExist(err) {
-      consoleSuccess("\t" + dir)
-      os.MkdirAll(dir, os.ModePerm)
-    }
-    return nil
-  } else {
-    return err
-  }
-}
-
-func removeFileIfExists(filename string) {
-  os.RemoveAll("public/error.html")
-}
-
-func writeStringToFile(path string, content string) error {
-  if err := makeDirIfMissing(filepath.Dir(path)); err != nil { return err }
-
-  if fo, err := os.Create(path); err != nil {
-    return err
-  } else {
-    defer fo.Close()
-    if _, err := fmt.Fprintf(fo, content); err != nil {
-      return err
-    }
-  }
-  return nil
-}
-
-func filepathToSitename(filepath string) string {
-  return strings.Split(filepath, "/")[1]
-}
-
-func PartialGlob(dirpath string, extMask string) ([]string, error) {
-  var files []string
-
-  if allFiles, err := RecursiveGlob(dirpath); err == nil {
-    for _, name := range allFiles {
-      dot := filepath.Base(name)[0]
-      ext := filepath.Ext(name)
-      if dot != '.' && ext == extMask {
-        files = append(files, name)
-      }
-    }
-  } else {
-    return nil, err
-  }
-  return files, nil
-}
-
-func FileTypeGlob(dirpath string, extMask string) ([]string, error) {
-  var files []string
-
-  if allFiles, err := RecursiveGlob(dirpath); err == nil {
-    for _, name := range allFiles {
-      dot := filepath.Base(name)[0]
-      ext := filepath.Ext(name)
-      if dot != '.' && dot != '_' && ext == extMask {
-        files = append(files, name)
-      }
-    }
-  } else {
-    return nil, err
-  }
-  return files, nil
 }
 

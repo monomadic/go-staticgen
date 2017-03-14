@@ -40,7 +40,7 @@ func (cfg *config) processArgs() {
   case flag.Arg(0) == "build":
     siteName := flag.Arg(1)
     if siteName == "" {
-      err := processSites(); if err != nil {
+      err := cfg.processSites(); if err != nil {
         consoleError(err)
       }
     } else {
