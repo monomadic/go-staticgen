@@ -38,14 +38,13 @@ func (cfg *config) processArgs() {
     scaffold(flag.Arg(1))
 
   case flag.Arg(0) == "build":
-    p := flag.Arg(1)
-    if p == "" {
+    siteName := flag.Arg(1)
+    if siteName == "" {
       err := processSites(); if err != nil {
         consoleError(err)
       }
     } else {
-      os.RemoveAll("public/"+flag.Arg(1))
-      err := processSite(flag.Arg(1)); if err != nil {
+      err := processSite(siteName); if err != nil {
         consoleError(err)
       }
     }
@@ -56,7 +55,7 @@ func (cfg *config) processArgs() {
   //     duplicateSite(p)
   //   } else {
   //     // processSite(flag.Arg(1))
-  //   }
+  //   
 
   case flag.Arg(0) == "serve" || flag.Arg(0) == "s":
     cfg.serve()

@@ -10,7 +10,7 @@ import (
 )
 
 func (cfg *config) serve() {
-  if err := processSites(); err != nil { createError("", err); os.Exit(1) }
+  if err := cfg.processSites(); err != nil { createError("", err); os.Exit(1) }
   
   // Create file watcher
   watcher, err := rfsnotify.NewWatcher()
@@ -23,7 +23,6 @@ func (cfg *config) serve() {
   go lr.ListenAndServe()
 
   // Start goroutine that requests reload upon watcher event
-  // done := make(chan bool)
   go func() {
     for {
       select {
@@ -44,7 +43,6 @@ func (cfg *config) serve() {
   // Watch dir
   err = watcher.AddRecursive("sites")
   if err != nil { log.Fatalln(err) }
-  // <-done
 
   log.Printf("Listening on %s\n", cfg.ServerURL())
   serveStatic()

@@ -8,7 +8,7 @@ import (
   "io/ioutil"
 )
 
-func processSites() error {
+func (cfg *config) processSites() error {
   files, err := ioutil.ReadDir("sites")
   if err != nil { return err }
 
