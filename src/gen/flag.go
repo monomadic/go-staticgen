@@ -37,7 +37,7 @@ func (cfg *config) processArgs() {
     }
     scaffold(flag.Arg(1))
 
-  case flag.Arg(0) == "build":
+  case flag.Arg(0) == "build" || flag.Arg(0) == "b":
     siteName := flag.Arg(1)
     if siteName == "" {
       err := cfg.processSites(); if err != nil {
