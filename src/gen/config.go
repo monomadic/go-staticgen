@@ -8,6 +8,7 @@ type config struct {
   Host string
   Port string
   Name string
+  SiteDir string
 }
 
 func (cfg *config) ServerURL() string {

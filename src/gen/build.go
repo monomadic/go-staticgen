@@ -3,35 +3,23 @@ package main
 import (
   "fmt"
   "os"
-  "path/filepath"
-  "io/ioutil"
 )
 
 func (cfg *config) processSites() error {
-  files, err := ioutil.ReadDir("sites")
+  sites, err := cfg.Sites()
   if err != nil { return err }
 
-  // os.RemoveAll("public")
-  // if err := makeDirIfMissing("public"); err != nil { return err }
-
-  for _, file := range files {
-    if file.IsDir() {
-      dot := filepath.Base(file.Name())[0]
-      if dot != '.' && dot != '_' {
-        consoleInfo("\nProcessing Site: http://localhost:9000/"+ file.Name())
-        if err := makeDirIfMissing("public/" + file.Name()); err != nil { return err }
-        if err := processSite(file.Name()); err != nil {
-          return err
-        }
-      }
-    }
+  for _, site := range sites {
+    consoleInfo("\nProcessing Site: " + cfg.ServerURL() + site)
+    if err := makeDirIfMissing("public/" + site); err != nil { return err }
+    if err := processSite(site); err != nil { return err }
   }
-  return nil
+  return err
 }
 
 func processSite(sitename string) error {
-  os.RemoveAll("public/*.*")
-  // os.RemoveAll("public/"+sitename)
+  os.RemoveAll("public/error.html")
+  os.RemoveAll("public/"+sitename+"/*.*")
   // if err := makeDirIfMissing("public/"+sitename); err != nil { return err }
   if err := processPages(sitename); err != nil { return err }
   if err := processStyles(sitename); err != nil { return err }

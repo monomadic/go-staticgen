@@ -8,6 +8,7 @@ import (
   "fmt"
   "strings"
   "path/filepath"
+  "io/ioutil"
 )
 
 // todo: this really doesn't need to be here.
@@ -47,6 +48,24 @@ func fileExists(filename string) bool {
   } else {
     return false
   }
+}
+
+func (cfg *config) Sites() ([]string, error) {
+  var sites []string
+
+  files, err := ioutil.ReadDir(cfg.SiteDir)
+
+  for _, file := range files {
+    if file.IsDir() {
+      dot := filepath.Base(file.Name())[0]
+      if dot != '.' && dot != '_' {
+        println(filepath.Base(file.Name()))
+        sites = append(sites, filepath.Base(file.Name()))
+      }
+    }
+  }
+
+  return sites, err
 }
 
 // returns all files and directories within a given directory, recursively
@@ -111,7 +130,7 @@ func FileTypeGlob(dirpath string, extMask string) ([]string, error) {
     for _, name := range allFiles {
       dot := filepath.Base(name)[0]
       ext := filepath.Ext(name)
-      if dot != '.' && dot != '_' && ext == extMask {
+      if dot != '.' && dot != '_' && name != ".DS_Store" && ext == extMask {
         files = append(files, name)
       }
     }
