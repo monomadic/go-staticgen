@@ -68,7 +68,10 @@ sites         # source files here
 
 The idea is that all your sites sit directly (no subdirs) within `/sites`, any directories starting with a `.` or `_` will be ignored. These directories are expected to have certain subdirectories (eg. `styles`, `images`, `scripts`, `fonts`, and `files`) which are processed accordingly.
 
-## Compiling
+## Installation (MacOS)
+Grab the latest release on the (releases)[releases] page. Unzip and add to your path.
+
+## Manually Compiling
 ```bash
 # an example of compiling, set GOPATH however you prefer.
 export GOBIN=$PWD/bin
@@ -81,13 +84,26 @@ mv ./gen ./bin/gen
 
 ## Templates
 
+### Images, fonts and files (the copy helper)
+Static binary files are treated a little differently in this processor. You need to use a template helper to copy them across to your project. This is intentional, for a few reasons reasons:
+
+#### Cleanliness
+Only files you actually use are copied across to the output directory. This means if you're not using half of your images, only the used ones will be copied.
+
+#### Error Checking
+The site will throw an error if the images don't exist. You don't want to go live with a mistyped filename, or if you move a bunch of files, you don't want some other site to break assets without you knowing.
+
+#### Cache Busting
+This is a common problem with hosting static sites on CDNs. Files are output with their hash appended to the resultant filename in order to refresh caches on change.
+
+To use these templates, use the following helper:
+```haml
+link href="{{ copy "styles/pure-min.css" }}" rel="stylesheet" type="text/css"
+```
+
+The files can exist in your `_shared` directory or your local directory.
+
+
 ### Go Templates
 All templates are first run through the golang standard templating processor, so you will get all benefits and helpers provided by it. See [here](https://golang.org/pkg/text/template/) and [here](https://golang.org/pkg/html/template/).
 
-Additionally, there are helper methods provided by go-staticgen itself.
-
-### shared_file file
-Copies a file from the `_shared` directory, relative to itself. Use this inline in your ace/gcss.
-```haml
-link href="{{ shared_file "styles/pure-min.css" }}" rel="stylesheet" type="text/css"
-```
