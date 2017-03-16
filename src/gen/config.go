@@ -9,6 +9,7 @@ type config struct {
   Port string
   Name string
   SiteDir string
+  BuildDir string
 }
 
 func (cfg *config) ServerURL() string {

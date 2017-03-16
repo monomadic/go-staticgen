@@ -9,6 +9,7 @@ func main() {
   cfg.Port = "9000"
   cfg.Name = "go-staticgen"
   cfg.SiteDir = "sites"
+  cfg.BuildDir = "public"
 
   cfg.processArgs()
 }

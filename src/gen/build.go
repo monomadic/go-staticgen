@@ -11,7 +11,7 @@ func (cfg *config) processSites() error {
 
   for _, site := range sites {
     consoleInfo("\nProcessing Site: " + cfg.ServerURL() + site)
-    if err := makeDirIfMissing("public/" + site); err != nil { return err }
+    if err := makeDirIfMissing(cfg.BuildDir + "/" + site); err != nil { return err }
     if err := processSite(site); err != nil { return err }
   }
   return err
