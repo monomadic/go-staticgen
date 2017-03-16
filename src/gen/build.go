@@ -34,7 +34,7 @@ func processImages(sitename string) error {
   var err error
   var files []string
 
-  if err := makeDirIfMissing("public/"+sitename+"/images"); err != nil { return err }
+  // if err := makeDirIfMissing("public/"+sitename+"/images"); err != nil { return err }
 
   if files, err = RecursiveGlob("sites/"+sitename+"/images"); err == nil {
     for _, name := range files {

@@ -13,7 +13,7 @@ func processTemplate(from string, dir string) (bytes.Buffer, error) {
   var siteName = filepathToSitename(from)
 
   funcMap := template.FuncMap {
-    "copy": func (src string) string { return helperCopyFile(src, from) },
+    "copy": func (src string) string { return helperCopyFile(findSharedFile(siteName, src), from) },
   }
 
   baseName := filepath.Base(from)
@@ -32,7 +32,9 @@ func processTemplate(from string, dir string) (bytes.Buffer, error) {
 }
 
 func helperCopyFile(from string, src string) string {
-  copy_from := "sites/_shared/" + from
+  if from == "" { createError(from, nil) }
+
+  copy_from := from
   copy_to := strings.Replace(convertSrcToDestPath(copy_from), "_shared", filepathToSitename(src), 1)
 
   if err := makeDirIfMissing(filepath.Dir(copy_to)); err != nil { createError(copy_from, err) }
@@ -44,4 +46,14 @@ func helperCopyFile(from string, src string) string {
   }
 
   return from
+}
+
+func findSharedFile(site string, from string) string {
+  if fileExists("sites/" + site + "/" + from) {
+    return "sites/" + site + "/" + from
+  } else {
+    if fileExists("sites/_shared/" + from) {
+      return "sites/_shared/" + from
+    } else { return "" }
+  }
 }

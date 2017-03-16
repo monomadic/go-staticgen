@@ -9,17 +9,11 @@ import (
 
 func compileAce(filename string) error {
   var doc bytes.Buffer
+  var siteName = filepathToSitename(filename)
 
   funcMap := template.FuncMap{
-    "image_tag": func(s string) template.HTML {
-      return template.HTML("<img src='"+s+"'>")
-    },
-    "img": func(s string) template.HTML {
-      return template.HTML(s)
-    },
-    "shared_file": helperCopyFile,
     "current_template": func () string { return filename },
-    "copy": func (from string) string { return helperCopyFile(from, filename) },
+    "copy": func (src string) string { return helperCopyFile(findSharedFile(siteName, src), filename) },
   }
 
   if tpl, err := ace.Load(aceInputFilePath(filename), "", &ace.Options{
