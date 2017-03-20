@@ -13,7 +13,7 @@ func processTemplate(from string, dir string) (bytes.Buffer, error) {
   var siteName = filepathToSitename(from)
 
   funcMap := template.FuncMap {
-    "copy": func (rel string) string { return helperCopyFile(rel, findSharedFile(siteName, rel)) },
+    "copy": func (rel string) string { return helperCopyFile(rel, findSharedFile(siteName, rel), siteName) },
   }
 
   baseName := filepath.Base(from)
@@ -31,10 +31,10 @@ func processTemplate(from string, dir string) (bytes.Buffer, error) {
   return doc, err
 }
 
-func helperCopyFile(rel string, src string) string {
+func helperCopyFile(rel string, src string, sitename string) string {
   if src == "" { createError(rel, nil) }
 
-  dest := strings.Replace(convertSrcToDestPath(src), "_shared", filepathToSitename(src), 1)
+  dest := strings.Replace(convertSrcToDestPath(src), "_shared", sitename, 1)
 
   if err := makeDirIfMissing(filepath.Dir(dest)); err != nil { createError(src, err) }
 
@@ -43,8 +43,6 @@ func helperCopyFile(rel string, src string) string {
   } else {
     consoleSuccess(fmt.Sprintf("\t%s\n", dest))
   }
-
-  println(rel + "?checksum=" + checksum(src))
 
   return rel + "?checksum=" + checksum(src)
 }

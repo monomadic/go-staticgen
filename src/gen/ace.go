@@ -13,7 +13,7 @@ func compileAce(filename string) error {
 
   funcMap := template.FuncMap{
     "current_template": func () string { return filename },
-    "copy": func (rel string) string { return helperCopyFile(rel, findSharedFile(siteName, rel)) },
+    "copy": func (rel string) string { return helperCopyFile(rel, findSharedFile(siteName, rel), siteName) },
   }
 
   if tpl, err := ace.Load(aceInputFilePath(filename), "", &ace.Options{
