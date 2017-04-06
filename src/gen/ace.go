@@ -5,6 +5,7 @@ import (
   "html/template"
   "bytes"
   "strings"
+  "path/filepath"
 )
 
 func compileAce(filename string) error {
@@ -19,7 +20,7 @@ func compileAce(filename string) error {
   if tpl, err := ace.Load(aceInputFilePath(filename), "", &ace.Options{
     FuncMap: funcMap,
     DynamicReload: true,
-    BaseDir: "sites/" + filepathToSitename(filename) + "/pages",
+    BaseDir: filepath.Join("sites", filepathToSitename(filename), "pages"),
     }); err == nil {
 
     if err := tpl.Execute(&doc, nil); err != nil {
@@ -35,11 +36,11 @@ func compileAce(filename string) error {
 }
 
 func aceInputFilePath(from string) string {
-  return trimExt(strings.Replace(from, "sites/" + filepathToSitename(from) + "/pages", "", 1))
+  return trimExt(strings.Replace(from, filepath.Join("sites", filepathToSitename(from), "pages"), "", 1))
 }
 
 func aceOutputFilePath(from string) string {
   toMake := strings.Replace(from, "sites", "public", 1)
   toMake = strings.Replace(toMake, "ace", "html", 1)
-  return strings.Replace(toMake, "/pages/", "/", 1)
+  return strings.Replace(toMake, filepath.Join("pages"), "/", 1)
 }

@@ -3,6 +3,7 @@ package main
 import (
   "fmt"
   "os"
+  "path/filepath"
 )
 
 func (cfg *config) processSites() error {
@@ -11,19 +12,19 @@ func (cfg *config) processSites() error {
 
   for _, site := range sites {
     consoleInfo("\nProcessing Site: " + cfg.ServerURL() + site)
-    if err := makeDirIfMissing(cfg.BuildDir + "/" + site); err != nil { return err }
+    if err := makeDirIfMissing(filepath.Join(cfg.BuildDir, site)); err != nil { return err }
     if err := processSite(site); err != nil { return err }
   }
   return err
 }
 
 func processSite(sitename string) error {
-  os.RemoveAll("public/error.html")
-  os.RemoveAll("public/"+sitename+"/*.*")
+  os.RemoveAll(filepath.Join("public", "error.html"))
+  os.RemoveAll(filepath.Join("public", sitename, "*.*"))
   // if err := makeDirIfMissing("public/"+sitename); err != nil { return err }
   if err := processPages(sitename); err != nil { return err }
   if err := processStyles(sitename); err != nil { return err }
-  if fileExists("sites/"+sitename+"/images") {
+  if fileExists(filepath.Join("sites", sitename, "images")) {
     if err := processImages(sitename); err != nil { return err }
   }
 
@@ -36,7 +37,7 @@ func processImages(sitename string) error {
 
   // if err := makeDirIfMissing("public/"+sitename+"/images"); err != nil { return err }
 
-  if files, err = RecursiveGlob("sites/"+sitename+"/images"); err == nil {
+  if files, err = RecursiveGlob(filepath.Join("sites", sitename, "images")); err == nil {
     for _, name := range files {
       err = copyFile(name)
     }
@@ -48,7 +49,7 @@ func processPages(sitename string) error {
   var err error
   var files []string
 
-  if files, err = FileTypeGlob("sites/"+sitename, ".ace"); err == nil {
+  if files, err = FileTypeGlob(filepath.Join("sites", sitename), ".ace"); err == nil {
     for _, name := range files {
       err = compileAce(name)
       if err == nil { consoleSuccess(fmt.Sprintf("\t" + aceOutputFilePath(name) + "\n")) }
@@ -61,9 +62,9 @@ func processStyles(sitename string) error {
   var err error
   var files []string
 
-  if err := makeDirIfMissing("public/"+sitename+"/styles"); err != nil { return err }
+  if err := makeDirIfMissing(filepath.Join("public", sitename, "styles")); err != nil { return err }
 
-  if files, err = FileTypeGlob("sites/"+sitename+"/styles", ".sass"); err == nil {
+  if files, err = FileTypeGlob(filepath.Join("sites", sitename, "styles"), ".sass"); err == nil {
     for _, name := range files {
       // println(name)
       err = compileGcss(name)

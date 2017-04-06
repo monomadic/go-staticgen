@@ -4,6 +4,7 @@ import (
   "github.com/yosssi/gcss"
   "bytes"
   "strings"
+  "path/filepath"
 )
 
 func compileGcss(from string) error {
@@ -13,7 +14,7 @@ func compileGcss(from string) error {
 
   sitename := filepathToSitename(from)
 
-  if fromdoc, err = processTemplate(from, "sites/"+ sitename +"/styles/**"); err != nil {
+  if fromdoc, err = processTemplate(from, filepath.Join("sites", sitename, "styles", "**")); err != nil {
     return err
   }
 
