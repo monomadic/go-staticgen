@@ -24,21 +24,19 @@ func copyFile(from string) error {
 // cp: copy a file from src to dst
 func cp(src string, dst string) error {
   s, err := os.Open(src)
-  if err != nil {
-    return err
-  }
-  // no need to check errors on read only file, we already got everything
-  // we need from the filesystem, so nothing can go wrong now.
   defer s.Close()
+  if err != nil { return err }
+
   d, err := os.Create(dst)
-  if err != nil {
-    return err
-  }
+  defer d.Close()
+
+  if err != nil { return err }
+
   if _, err := io.Copy(d, s); err != nil {
-    d.Close()
     return err
   }
-  return d.Close()
+  
+  return err
 }
 
 // check if file exists
@@ -160,10 +158,11 @@ func writeStringToFile(path string, content string) error {
   if err := makeDirIfMissing(filepath.Dir(path)); err != nil { return err }
 
   if fo, err := os.Create(path); err != nil {
+    defer fo.Close()
     return err
   } else {
-    defer fo.Close()
     if _, err := fmt.Fprintf(fo, content); err != nil {
+      defer fo.Close()
       return err
     }
   }
