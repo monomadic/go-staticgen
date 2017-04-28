@@ -1,3 +1,5 @@
+// go templates are serious aids and people who seriously think they're good (eg most go programmers) are potatoes.
+
 package main
 
 import (
@@ -6,11 +8,26 @@ import (
   "path/filepath"
   "strings"
   "fmt"
+
+  "os"
 )
 
-// func parseTemplate(tpl *templateWriter) error {
+func parseTemplate(tpl *TemplateWriter) error {
+  buf := new(bytes.Buffer)
+  buf.ReadFrom(tpl.buffer)
 
-// }
+  t := template.New("newTemplate")
+  t.Parse(buf.String())
+
+  println(buf.String())
+
+  println("sdfdsf")
+  t.Execute(os.Stdout, nil)
+
+  println("sdfdsf")
+
+  return nil
+}
 
 func processTemplate(from string, dir string) (bytes.Buffer, error) {
   var doc bytes.Buffer

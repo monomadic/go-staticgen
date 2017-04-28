@@ -4,6 +4,6 @@ import (
 )
 
 type Processor interface {
-  dstfile()     string
-  compile() error
+  dstfile(string)           string
+  compile(*TemplateWriter)  error
 }

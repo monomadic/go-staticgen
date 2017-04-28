@@ -8,9 +8,6 @@ import (
 type TemplateWriter struct {
   buffer      io.Reader
   writer      io.Writer
-  // processor   Processor
-  // src         string
-  // dst         string
   err         error
 }
 

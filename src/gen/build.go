@@ -59,19 +59,17 @@ func processPages(sitename string) error {
   return err
 }
 
-func processStyles(sitename string) error {
-  var filetype = ".sass"
+func processDir(sitename string, filetype string, processor Processor) error {
   var srcdir = filepath.Join("sites", sitename, "styles")
   var dstdir = filepath.Join("public", sitename, "styles")
   var err error
-
-  var processor = &GcssProcessor{}
 
   if err := makeDirIfMissing(dstdir); err != nil { return err }
 
   if files, err := FileTypeGlob(srcdir, filetype); err == nil {
     for _, name := range files {
       tpl := NewTemplateWriter(name, processor.dstfile(name))
+      if tpl.err != nil { return tpl.err }
 
       processor.compile(tpl)
 
@@ -84,19 +82,7 @@ func processStyles(sitename string) error {
   return err
 }
 
-// func processStyles(sitename string) error {
-//   var err error
-//   var files []string
-
-//   if err := makeDirIfMissing(filepath.Join("public", sitename, "styles")); err != nil { return err }
-
-//   if files, err = FileTypeGlob(filepath.Join("sites", sitename, "styles"), ".sass"); err == nil {
-//     for _, name := range files {
-//       // println(name)
-//       err = compileGcss(name)
-//       if err == nil { consoleSuccess(fmt.Sprintf("\t" + gcssOutputFilePath(name) + "\n")) }
-//     }
-//   }
-//   return err
-// }
-
+func processStyles(sitename string) error {
+  var processor = &GcssProcessor{}
+  return processDir(sitename, ".sass", processor)
+}
