@@ -4,6 +4,7 @@ import (
   "fmt"
   "os"
   "path/filepath"
+  // "strings"
 )
 
 func (cfg *config) processSites() error {
@@ -59,18 +60,43 @@ func processPages(sitename string) error {
 }
 
 func processStyles(sitename string) error {
+  var filetype = ".sass"
+  var srcdir = filepath.Join("sites", sitename, "styles")
+  var dstdir = filepath.Join("public", sitename, "styles")
   var err error
-  var files []string
 
-  if err := makeDirIfMissing(filepath.Join("public", sitename, "styles")); err != nil { return err }
+  var processor = &GcssProcessor{}
 
-  if files, err = FileTypeGlob(filepath.Join("sites", sitename, "styles"), ".sass"); err == nil {
+  if err := makeDirIfMissing(dstdir); err != nil { return err }
+
+  if files, err := FileTypeGlob(srcdir, filetype); err == nil {
     for _, name := range files {
-      // println(name)
-      err = compileGcss(name)
-      if err == nil { consoleSuccess(fmt.Sprintf("\t" + gcssOutputFilePath(name) + "\n")) }
+      tpl := NewTemplateWriter(name, processor.dstfile(name))
+
+      processor.compile(tpl)
+
+      if tpl.err == nil {
+        consoleSuccess(fmt.Sprintf("\t" + processor.dstfile(name) + "\n"))
+      } else { print(name) ; return tpl.err }
     }
   }
+
   return err
 }
+
+// func processStyles(sitename string) error {
+//   var err error
+//   var files []string
+
+//   if err := makeDirIfMissing(filepath.Join("public", sitename, "styles")); err != nil { return err }
+
+//   if files, err = FileTypeGlob(filepath.Join("sites", sitename, "styles"), ".sass"); err == nil {
+//     for _, name := range files {
+//       // println(name)
+//       err = compileGcss(name)
+//       if err == nil { consoleSuccess(fmt.Sprintf("\t" + gcssOutputFilePath(name) + "\n")) }
+//     }
+//   }
+//   return err
+// }
 

@@ -44,3 +44,4 @@ func aceOutputFilePath(from string) string {
   toMake = strings.Replace(toMake, "ace", "html", 1)
   return strings.Replace(toMake, filepath.Join("pages"), "/", 1)
 }
+

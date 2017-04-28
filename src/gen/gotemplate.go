@@ -8,6 +8,10 @@ import (
   "fmt"
 )
 
+// func parseTemplate(tpl *templateWriter) error {
+
+// }
+
 func processTemplate(from string, dir string) (bytes.Buffer, error) {
   var doc bytes.Buffer
   var siteName = filepathToSitename(from)
