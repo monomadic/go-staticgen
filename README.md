@@ -74,6 +74,8 @@ Grab the latest release on the (releases)[releases] page. Unzip and add to your 
 ## Manually Compiling
 ```bash
 # use gb tool, see: getgb.io
+git clone git@github.com:robsaunders/go-staticgen.git
+cd go-staticgen
 gb build all
 # executable will be placed in bin/gen, you should copy it to /bin or within your path.
 ```
