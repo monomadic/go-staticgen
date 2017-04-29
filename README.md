@@ -2,7 +2,7 @@
 
 A simpler re-thinking of static site generators in golang.
 
-- one template language [ace](https://github.com/yosssi/ace) (like haml) and one stylesheet language [gcss](https://github.com/yosssi/gcss) (like slim/sass) that are 100% golang.
+- simple plugin system, currently supporting libsass/gcss and ace templates.
 - compiles to single binary with no external dependencies
 - livereload with errors shown in-browser
 - opinionated workflow (see folder structure)
@@ -73,12 +73,8 @@ Grab the latest release on the (releases)[releases] page. Unzip and add to your 
 
 ## Manually Compiling
 ```bash
-# an example of compiling, set GOPATH however you prefer.
-export GOBIN=$PWD/bin
-export GOPATH=$PWD
-go build -v gen
-mkdir ./bin
-mv ./gen ./bin/gen
+# use gb tool, see: getgb.io
+gb build all
 # executable will be placed in bin/gen, you should copy it to /bin or within your path.
 ```
 
