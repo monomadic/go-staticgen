@@ -85,5 +85,5 @@ func processDir(sitename string, filetype string, processor Processor) error {
 func processStyles(sitename string) error {
   // var processor = &GcssProcessor{}
   // var processor = &SassProcessor{}
-  return processDir(sitename, ".sass", &GcssProcessor{})
+  return processDir(sitename, ".sass", &SassProcessor{})
 }

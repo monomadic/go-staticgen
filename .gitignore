@@ -1,10 +1,8 @@
-src/github.com
-src/golang.org
-src/gopkg.in
+pkg/*
 bin/*
 public/*
 sites/*
-pkg/*
+vendor/src/*
 *.sh
 
 .DS_Store

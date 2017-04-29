@@ -2,9 +2,102 @@
 	"version": 0,
 	"dependencies": [
 		{
+			"importpath": "github.com/dietsche/rfsnotify",
+			"repository": "https://github.com/dietsche/rfsnotify",
+			"revision": "94bf32bab0afb5f7d8b1af410fd89118eae02de2",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/fatih/color",
+			"repository": "https://github.com/fatih/color",
+			"revision": "9131ab34cf20d2f6d83fdc67168a5430d1c7dc23",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/gorilla/websocket",
+			"repository": "https://github.com/gorilla/websocket",
+			"revision": "a91eba7f97777409bc2c443f5534d41dd20c5720",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/jaschaephraim/lrserver",
+			"repository": "https://github.com/jaschaephraim/lrserver",
+			"revision": "a6402c59d5edc12bf83c3fa74a1b86dd9b8d6e19",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/mattn/go-colorable",
+			"repository": "https://github.com/mattn/go-colorable",
+			"revision": "ded68f7a9561c023e790de24279db7ebf473ea80",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/mattn/go-isatty",
 			"repository": "https://github.com/mattn/go-isatty",
 			"revision": "fc9e8d8ef48496124e79ae0df75490096eccf6fe",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/wellington/go-libsass",
+			"repository": "https://github.com/wellington/go-libsass",
+			"revision": "b02a5254ee764675d4cc07be8d2b00be71f44323",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/wellington/spritewell",
+			"repository": "https://github.com/wellington/spritewell",
+			"revision": "da08877d33fc78eecf40cf3b40c5f5e296e0acf1",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/yosssi/ace",
+			"repository": "https://github.com/yosssi/ace",
+			"revision": "ea038f4770b6746c3f8f84f14fa60d9fe1205b56",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/yosssi/ace-proxy",
+			"repository": "https://github.com/yosssi/ace-proxy",
+			"revision": "ecd9b785e6023e00b1a451cdf584a30d4eff14c0",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/yosssi/gcss",
+			"repository": "https://github.com/yosssi/gcss",
+			"revision": "39677598ea4f3ec1da5568173b4d43611f307edb",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/yosssi/gohtml",
+			"repository": "https://github.com/yosssi/gohtml",
+			"revision": "1d8dc9c914ff4253a3af95c1891d809210245e69",
+			"branch": "master"
+		},
+		{
+			"importpath": "golang.org/x/net/context",
+			"repository": "https://go.googlesource.com/net",
+			"revision": "da118f7b8e5954f39d0d2130ab35d4bf0e3cb344",
+			"branch": "master",
+			"path": "/context"
+		},
+		{
+			"importpath": "golang.org/x/net/html",
+			"repository": "https://go.googlesource.com/net",
+			"revision": "da118f7b8e5954f39d0d2130ab35d4bf0e3cb344",
+			"branch": "master",
+			"path": "/html"
+		},
+		{
+			"importpath": "golang.org/x/sys/unix",
+			"repository": "https://go.googlesource.com/sys",
+			"revision": "9ccfe848b9db8435a24c424abbc07a921adf1df5",
+			"branch": "master",
+			"path": "/unix"
+		},
+		{
+			"importpath": "gopkg.in/fsnotify.v1",
+			"repository": "https://gopkg.in/fsnotify.v1",
+			"revision": "629574ca2a5df945712d3079857300b5e4da0236",
 			"branch": "master"
 		}
 	]
