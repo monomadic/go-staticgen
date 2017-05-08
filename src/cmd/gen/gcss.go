@@ -1,17 +1,19 @@
 package main
 
 import (
-  "github.com/yosssi/gcss"
-  "strings"
+	"strings"
+
+	"github.com/yosssi/gcss"
 )
 
-type GcssProcessor struct {}
+// GcssProcessor : template wrapper for the gcss library.
+type GcssProcessor struct{}
 
 func (p GcssProcessor) compile(tpl *TemplateWriter) error {
-  _, err := gcss.Compile(tpl.writer, tpl.buffer)
-  return err
+	_, err := gcss.Compile(tpl.writer, tpl.buffer)
+	return err
 }
 
 func (p GcssProcessor) dstfile(filename string) string {
-  return strings.Replace(convertSrcToDestPath(filename), "sass", "css", 1)
+	return strings.Replace(convertSrcToDestPath(filename), "sass", "css", 1)
 }
