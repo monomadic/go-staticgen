@@ -1,12 +1,9 @@
-// go templates are serious aids and people who seriously think they're good (eg most go programmers) are potatoes.
-
 package main
 
 import (
 	"bytes"
 	"fmt"
 	"path/filepath"
-	"strings"
 	"text/template"
 
 	"os"
@@ -35,7 +32,7 @@ func processTemplate(from string, dir string) (bytes.Buffer, error) {
 	var err error
 
 	funcMap := template.FuncMap{
-		"copy": func(rel string) string { return helperCopyFile(rel, findSharedFile(siteName, rel), siteName) },
+	// "copy": func(rel string) string { return helperCopyFile(rel, findSharedFile(siteName, rel), siteName) },
 	}
 
 	baseName := filepath.Base(from)
@@ -51,16 +48,9 @@ func processTemplate(from string, dir string) (bytes.Buffer, error) {
 	return doc, err
 }
 
-func helperCopyFile(rel string, src string, sitename string) string {
-	if src == "" {
-		createError(rel, nil)
-	}
-
-	dest := strings.Replace(convertSrcToDestPath(src), "_shared", sitename, 1)
-
-	if err := makeDirIfMissing(filepath.Dir(dest)); err != nil {
-		createError(src, err)
-	}
+func helperCopyFile(rel string, sitename string) string {
+	src := findFile(rel, sitename)
+	dest := filepath.Clean(filepath.Join("public", sitename, rel))
 
 	if err := cp(src, dest); err != nil {
 		createError(src, err)
@@ -71,17 +61,12 @@ func helperCopyFile(rel string, src string, sitename string) string {
 	return rel + "?checksum=" + checksum(src)
 }
 
-func findSharedFile(site string, from string) string {
-	var localFile = filepath.Join("sites", site, from)
-	var sharedFile = filepath.Join("sites", "_shared", site, from)
-
-	if fileExists(localFile) {
-		return localFile
-	}
+func findFile(from string, sitename string) string {
+	var sharedFile = filepath.Clean(filepath.Join("sites", "_shared", from))
 
 	if fileExists(sharedFile) {
 		return sharedFile
 	}
 
-	return ""
+	return filepath.Clean(filepath.Join("sites", sitename, from))
 }
