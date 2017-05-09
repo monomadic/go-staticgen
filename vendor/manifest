@@ -8,6 +8,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/eknkc/amber",
+			"repository": "https://github.com/eknkc/amber",
+			"revision": "f0d8fdb67f9f4a2c0d02fb6ce4830b8b6754de10",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/fatih/color",
 			"repository": "https://github.com/fatih/color",
 			"revision": "9131ab34cf20d2f6d83fdc67168a5430d1c7dc23",
@@ -70,20 +76,20 @@
 		{
 			"importpath": "github.com/yosssi/gohtml",
 			"repository": "https://github.com/yosssi/gohtml",
-			"revision": "1d8dc9c914ff4253a3af95c1891d809210245e69",
+			"revision": "0cb98725f71a637e7bb967a8e87a1bab7ebaa6b0",
 			"branch": "master"
 		},
 		{
 			"importpath": "golang.org/x/net/context",
 			"repository": "https://go.googlesource.com/net",
-			"revision": "da118f7b8e5954f39d0d2130ab35d4bf0e3cb344",
+			"revision": "feeb485667d1fdabe727840fe00adc22431bc86e",
 			"branch": "master",
 			"path": "/context"
 		},
 		{
 			"importpath": "golang.org/x/net/html",
 			"repository": "https://go.googlesource.com/net",
-			"revision": "da118f7b8e5954f39d0d2130ab35d4bf0e3cb344",
+			"revision": "feeb485667d1fdabe727840fe00adc22431bc86e",
 			"branch": "master",
 			"path": "/html"
 		},

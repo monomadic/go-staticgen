@@ -3,14 +3,14 @@
 package main
 
 import (
-  "flag"
-  "fmt"
-  "os"
+	"flag"
+	"fmt"
+	"os"
 )
 
 func (cfg *config) processArgs() {
-  flag.Usage = func() {
-  fmt.Printf(`
+	flag.Usage = func() {
+		fmt.Printf(`
 
   NAME:
     %s
@@ -25,42 +25,44 @@ func (cfg *config) processArgs() {
     serve                Serve your site locally.
 
 `[1:], cfg.Name)
-  }
-  flag.Parse()
+	}
+	flag.Parse()
 
-  switch {
-  case flag.Arg(0) == "new":
-    p := flag.Arg(1)
-    if p == "" {
-      flag.Usage()
-      os.Exit(1)
-    }
-    scaffold(flag.Arg(1))
+	switch {
+	case flag.Arg(0) == "new":
+		p := flag.Arg(1)
+		if p == "" {
+			flag.Usage()
+			os.Exit(1)
+		}
+		scaffold(flag.Arg(1))
 
-  case flag.Arg(0) == "build" || flag.Arg(0) == "b":
-    siteName := flag.Arg(1)
-    if siteName == "" {
-      err := cfg.processSites(); if err != nil {
-        consoleError(err)
-      }
-    } else {
-      err := processSite(siteName); if err != nil {
-        consoleError(err)
-      }
-    }
+	case flag.Arg(0) == "build" || flag.Arg(0) == "b":
+		siteName := flag.Arg(1)
+		if siteName == "" {
+			err := cfg.processSites()
+			if err != nil {
+				consoleError(err)
+			}
+		} else {
+			err := cfg.processSite(siteName)
+			if err != nil {
+				consoleError(err)
+			}
+		}
 
-  // case flag.Arg(0) == "dupe":
-  //   p := flag.Arg(1)
-  //   if p == "" {
-  //     duplicateSite(p)
-  //   } else {
-  //     // processSite(flag.Arg(1))
-  //   
+	// case flag.Arg(0) == "dupe":
+	//   p := flag.Arg(1)
+	//   if p == "" {
+	//     duplicateSite(p)
+	//   } else {
+	//     // processSite(flag.Arg(1))
+	//
 
-  case flag.Arg(0) == "serve" || flag.Arg(0) == "s":
-    cfg.serve()
+	case flag.Arg(0) == "serve" || flag.Arg(0) == "s":
+		cfg.serve()
 
-  default:
-    flag.Usage()
-  }
+	default:
+		flag.Usage()
+	}
 }

@@ -9,12 +9,16 @@ import (
 type TemplateWriter struct {
 	buffer io.Reader
 	writer io.Writer
+	src    string
+	dest   string
 	err    error
 }
 
 // NewTemplateWriter - creates a TemplateWriter instance.
 func NewTemplateWriter(src string, dst string) *TemplateWriter {
 	t := TemplateWriter{}
+	t.src = src
+	t.dest = dst
 	t.SetReader(src)
 	t.SetWriter(dst)
 	return &t

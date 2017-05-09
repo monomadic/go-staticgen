@@ -14,28 +14,30 @@ func (cfg *config) processSites() error {
 
 	for _, site := range sites {
 		consoleInfo("\nProcessing Site: " + cfg.ServerURL() + site)
-		if err := makeDirIfMissing(filepath.Join(cfg.BuildDir, site)); err != nil {
+		if err := makeDirIfMissing(filepath.Join(cfg.DestDir, site)); err != nil {
 			return err
 		}
-		if err := processSite(site); err != nil {
+		if err := cfg.processSite(site); err != nil {
 			return err
 		}
 	}
 	return err
 }
 
-func processSite(sitename string) error {
-	os.RemoveAll(filepath.Join("public", "error.html"))
-	os.RemoveAll(filepath.Join("public", sitename, "*.*"))
-	// if err := makeDirIfMissing("public/"+sitename); err != nil { return err }
-	if err := processPages(sitename); err != nil {
+func (cfg *config) processSite(sitename string) error {
+	os.RemoveAll(cfg.ErrorFile())
+	os.RemoveAll(filepath.Join(cfg.DestDir, sitename, "*.*"))
+
+	if err := cfg.processPages(sitename); err != nil {
 		return err
 	}
-	if err := processStyles(sitename); err != nil {
+
+	if err := cfg.processStyles(sitename); err != nil {
 		return err
 	}
-	if fileExists(filepath.Join("sites", sitename, "images")) {
-		if err := processImages(sitename); err != nil {
+
+	if fileExists(filepath.Join(cfg.SrcDir, sitename, cfg.ImageDir)) {
+		if err := cfg.processImages(sitename); err != nil {
 			return err
 		}
 	}
@@ -43,13 +45,11 @@ func processSite(sitename string) error {
 	return nil
 }
 
-func processImages(sitename string) error {
+func (cfg *config) processImages(sitename string) error {
 	var err error
 	var files []string
 
-	// if err := makeDirIfMissing("public/"+sitename+"/images"); err != nil { return err }
-
-	if files, err = RecursiveGlob(filepath.Join("sites", sitename, "images")); err == nil {
+	if files, err = RecursiveGlob(filepath.Join(cfg.SrcDir, sitename, cfg.ImageDir)); err == nil {
 		for _, name := range files {
 			err = copyFile(name)
 		}
@@ -57,29 +57,44 @@ func processImages(sitename string) error {
 	return err
 }
 
-func processPages(sitename string) error {
-	var err error
-	var files []string
+// func (cfg *config) pprocessPages(sitename string) error {
+// 	var err error
+// 	var files []string
 
-	if files, err = FileTypeGlob(filepath.Join("sites", sitename), ".ace"); err == nil {
-		for _, name := range files {
-			err = compileAce(name)
-			if err == nil {
-				consoleSuccess(fmt.Sprintf("\t" + aceOutputFilePath(name) + "\n"))
-			}
-		}
-	}
-	return err
-}
+// 	if files, err = FileTypeGlob(filepath.Join(cfg.SrcDir, sitename), ".ace"); err == nil {
+// 		for _, name := range files {
+// 			err = compileAce(name)
+// 			if err == nil {
+// 				consoleSuccess(fmt.Sprintf("\t" + aceOutputFilePath(name) + "\n"))
+// 			}
+// 		}
+// 	}
+// 	return err
+// }
 
-func processDir(sitename string, filetype string, processor Processor) error {
-	var srcdir = filepath.Join("sites", sitename, "styles")
-	var dstdir = filepath.Join("public", sitename, "styles")
-	var err error
+func (cfg *config) processPages(sitename string) error {
 
-	if err := makeDirIfMissing(dstdir); err != nil {
+	if err := makeDirIfMissing(filepath.Join(cfg.DestDir, sitename, cfg.PageDir)); err != nil {
 		return err
 	}
+
+	return cfg.processDir(filepath.Join(cfg.SrcDir, sitename, cfg.PageDir), ".ace", &AceProcessor{})
+}
+
+func (cfg *config) processStyles(sitename string) error {
+	if err := makeDirIfMissing(filepath.Join(cfg.DestDir, sitename, cfg.StyleDir)); err != nil {
+		return err
+	}
+
+	// var processor = &GcssProcessor{}
+	// var processor = &SassProcessor{}
+	return cfg.processDir(filepath.Join(cfg.SrcDir, sitename, cfg.StyleDir), ".sass", &GcssProcessor{})
+}
+
+func (cfg *config) processDir(srcdir string, filetype string, processor Processor) error {
+	var err error
+
+	println("processing " + srcdir)
 
 	if files, err := FileTypeGlob(srcdir, filetype); err == nil {
 		for _, name := range files {
@@ -100,10 +115,4 @@ func processDir(sitename string, filetype string, processor Processor) error {
 	}
 
 	return err
-}
-
-func processStyles(sitename string) error {
-	// var processor = &GcssProcessor{}
-	// var processor = &SassProcessor{}
-	return processDir(sitename, ".sass", &SassProcessor{})
 }
