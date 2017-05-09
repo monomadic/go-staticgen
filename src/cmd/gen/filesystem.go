@@ -180,3 +180,26 @@ func writeStringToFile(path string, content string) error {
 
 	return err
 }
+
+func helperCopyFile(rel string, sitename string) string {
+	src := findFile(rel, sitename)
+	dest := filepath.Clean(filepath.Join("public", sitename, rel))
+
+	if err := cp(src, dest); err != nil {
+		createError(src, err)
+	} else {
+		consoleSuccess(fmt.Sprintf("\t%s\n", dest))
+	}
+
+	return rel + "?checksum=" + checksum(src)
+}
+
+func findFile(from string, sitename string) string {
+	var sharedFile = filepath.Clean(filepath.Join("sites", "_shared", from))
+
+	if fileExists(sharedFile) {
+		return sharedFile
+	}
+
+	return filepath.Clean(filepath.Join("sites", sitename, from))
+}

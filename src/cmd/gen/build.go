@@ -76,7 +76,7 @@ func (cfg *config) processStyles(sitename string) error {
 
 	// var processor = &GcssProcessor{}
 	// var processor = &SassProcessor{}
-	return cfg.processDir(filepath.Join(cfg.SrcDir, sitename, cfg.StyleDir), ".sass", &GcssProcessor{})
+	return cfg.processDir(filepath.Join(cfg.SrcDir, sitename, cfg.StyleDir), ".sass", &SassProcessor{})
 }
 
 func (cfg *config) processDir(srcdir string, filetype string, processor Processor) error {
