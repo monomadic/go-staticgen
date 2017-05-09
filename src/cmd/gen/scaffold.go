@@ -3,32 +3,31 @@
 
 package main
 
-import (
-)
-
 func scaffold(name string) error {
-  var err error
-  consoleInfo("Generating new site scaffold: " + name)
-  err = ensureDirectoryStructure(name)
-  err = writeStringToFile("sites/" + name + "/pages/index.ace", indexAceTemplate())
-  err = writeStringToFile("sites/" + name + "/pages/_head.ace", indexAceHead(name))
-  err = writeStringToFile("sites/" + name + "/styles/main.sass", sassStyle())
-  err = writeStringToFile("sites/" + name + "/styles/_settings.sass", sassPartial())
+	var err error
+	consoleInfo("Generating new site scaffold: " + name)
+	err = ensureDirectoryStructure(name)
+	err = writeStringToFile("sites/"+name+"/pages/index.ace", indexAceTemplate())
+	err = writeStringToFile("sites/"+name+"/pages/_head.ace", indexAceHead(name))
+	err = writeStringToFile("sites/"+name+"/styles/main.sass", sassStyle())
+	err = writeStringToFile("sites/"+name+"/styles/_settings.sass", sassPartial())
 
-  if err != nil { consoleError(err) }
-  return err
+	if err != nil {
+		consoleError(err)
+	}
+	return err
 }
 
 func ensureDirectoryStructure(name string) error {
-  var err error
-  err = makeDirIfMissing("sites/" + name + "/scripts/")
-  err = makeDirIfMissing("sites/" + name + "/styles/")
-  err = makeDirIfMissing("sites/" + name + "/images/")
-  return err
+	var err error
+	err = makeDirIfMissing("sites/" + name + "/scripts/")
+	err = makeDirIfMissing("sites/" + name + "/styles/")
+	err = makeDirIfMissing("sites/" + name + "/images/")
+	return err
 }
 
 func indexAceTemplate() string {
-  return `= doctype html
+	return `= doctype html
 
 html lang=en
   = include _head
@@ -39,14 +38,14 @@ html lang=en
 }
 
 func indexAceHead(name string) string {
-  return `head
-  title `+name+`
+	return `head
+  title ` + name + `
   link href="styles/main.css" rel="stylesheet" type="text/css"
 `
 }
 
 func sassStyle() string {
-  return `{{ template "_settings.sass" }}
+	return `@import settings
 
 html
   font-family: Helvetica
@@ -72,7 +71,7 @@ a
 }
 
 func sassPartial() string {
-  return `$background-color: white
+	return `$background-color: white
 $text-color: #222
 `
 }
