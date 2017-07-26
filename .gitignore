@@ -6,3 +6,4 @@ vendor/src/*
 *.sh
 
 .DS_Store
+.idea
