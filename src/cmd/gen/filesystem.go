@@ -185,6 +185,11 @@ func helperCopyFile(rel string, sitename string) string {
 	src := findFile(rel, sitename)
 	dest := filepath.Clean(filepath.Join("public", sitename, rel))
 
+	println("copying", src, dest)
+
+	dir, _ := filepath.Split(dest)
+	makeDirIfMissing(dir)
+
 	if err := cp(src, dest); err != nil {
 		createError(src, err)
 	} else {
