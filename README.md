@@ -3,20 +3,25 @@
 A simpler re-thinking of static site generators in golang.
 
 ## Features
-- livereload (use a plugin on the browser, eg [chrome](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
 - [ace](https://github.com/yosssi/ace) for html (similar to haml)
 - [libsass](https://github.com/wellington/go-libsass) for css
+- livereload (use a plugin on the browser, eg [chrome](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en))
 - errors shown in-browser
+- SCREAMINGLY FAST
 
 ## Pitch
-If you're a developer/designer who manages a group of static sites, and you want a better workflow, this might be a good option for you, as it revolves around the idea of code/module re-use across static sites. You could build up a 'reserve' of assets such as fonts, placeholder images, regularly used styles and framework files that are always available and you can update or manage them all in one simple directory structure without crazy dependencies or messing with the black hole of stupid that is node.js.
+This generator is unlike other generators. It's a tool designed for efficiency with zero bloat. No 'downloading templates', or  complicated documentation. Give it a chance, you will get the hang of this style of development within minutes, and never want to use another generator.
+
+If you don't like the code-safety of haml-like or sass-like preprocessors or don't know how to write basic markup, this isn't for you. If you like wordpress, this isn't for you. If you're a developer/designer who manages a group of static sites, and you want a better workflow, this might be a good option for you. It revolves around the idea of code/module re-use with minimal fuss. You build up a 'reserve' of shared assets such as fonts, placeholder images, code chunks, regularly used styles and framework files that are always available and you can update or manage them all in one simple directory structure without crazy dependencies or messing with the black hole of stupid that is node.js.
+
+It compiles to a single directory and tells you instantly if there are missing files, broken code, or filesystem problems across your entire set of sites, so you know exactly what's what.
 
 It becomes so easy and frictionless to whip up new sites, and keep them up to date, you'll find yourself addicted to pushing changes and making new sites.
 
 ![screenshot](screenshot.png)
 
 ## OMFG ANOTHER STATIC SITE GENERATOR?
-Wow. Calm down. After trying many static generators I realised there's a core problem with seemingly all of them - they focus on non-technical users who want to make blogs. Nothing against this kind of user, but it's not me. I know how to use a variety of front end languages, why can't I have the freedom to create sites using them without delving into templates? I want to make actual websites that have varied structure. I don't need the program to force me into a structure I dont want to work in, which usually is:
+Wow. Calm down. After trying many static generators I realised there's a core problem with seemingly all of them - they focus on non-technical users who want to make blogs, and/or don't know how to write markup. Nothing against this kind of user, but it's not me. I know how to use a variety of front end languages, why can't I have the freedom to create sites using them without delving into templates? I want to make actual websites that have varied structure. I don't need the program to force me into a structure I dont want to work in, which usually is:
 
 - you are told to write markdown files as blog posts, as a first priority.
 - the design itself is done as a 'template', separate to your site, why?!
