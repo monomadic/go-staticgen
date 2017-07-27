@@ -84,6 +84,10 @@ func (cfg *config) processDir(srcdir string, filetype string, processor Processo
 
 	if files, err := FileTypeGlob(srcdir, filetype); err == nil {
 		for _, name := range files {
+			// create directories if needed
+			dir, _ := filepath.Split(processor.dstfile(name))
+			makeDirIfMissing(dir)
+
 			tpl := NewTemplateWriter(name, processor.dstfile(name))
 			if tpl.err != nil {
 				return tpl.err
