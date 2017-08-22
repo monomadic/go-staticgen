@@ -10,8 +10,8 @@ import (
 	"github.com/jaschaephraim/lrserver"
 )
 
-func (cfg *config) serve() {
-	if err := cfg.processSites(); err != nil {
+func serve() {
+	if err := processSites(); err != nil {
 		createError("", err)
 		os.Exit(1)
 	}
@@ -37,7 +37,7 @@ func (cfg *config) serve() {
 			case event := <-watcher.Events:
 				consoleInfo("[FSNotify] changes detected: " + event.Name + " " + time.Now().Format(time.RFC3339))
 				consoleInfo("\nProcessing Site: " + filepathToSitename(event.Name))
-				if err := cfg.processSite(filepathToSitename(event.Name)); err != nil {
+				if err := processSite(filepathToSitename(event.Name)); err != nil {
 					createError(event.Name, err)
 					lr.Reload(event.Name)
 				} else {

@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func (cfg *config) processArgs() {
+func processArgs() {
 	flag.Usage = func() {
 		fmt.Printf(`
 
@@ -40,12 +40,12 @@ func (cfg *config) processArgs() {
 	case flag.Arg(0) == "build" || flag.Arg(0) == "b":
 		siteName := flag.Arg(1)
 		if siteName == "" {
-			err := cfg.processSites()
+			err := processSites()
 			if err != nil {
 				consoleError(err)
 			}
 		} else {
-			err := cfg.processSite(siteName)
+			err := processSite(siteName)
 			if err != nil {
 				consoleError(err)
 			}
@@ -60,7 +60,7 @@ func (cfg *config) processArgs() {
 	//
 
 	case flag.Arg(0) == "serve" || flag.Arg(0) == "s":
-		cfg.serve()
+		serve()
 
 	default:
 		flag.Usage()

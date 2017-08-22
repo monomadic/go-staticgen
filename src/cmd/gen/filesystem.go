@@ -50,7 +50,7 @@ func fileExists(filename string) bool {
 	return false
 }
 
-func (cfg *config) Sites() ([]string, error) {
+func allSites() ([]string, error) {
 	var sites []string
 
 	files, err := ioutil.ReadDir(cfg.SiteDir)

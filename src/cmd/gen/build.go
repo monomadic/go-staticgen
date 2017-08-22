@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 )
 
-func (cfg *config) processSites() error {
-	sites, err := cfg.Sites()
+func processSites() error {
+	sites, err := allSites()
 	if err != nil {
 		return err
 	}
@@ -17,27 +17,27 @@ func (cfg *config) processSites() error {
 		if err := makeDirIfMissing(filepath.Join(cfg.DestDir, site)); err != nil {
 			return err
 		}
-		if err := cfg.processSite(site); err != nil {
+		if err := processSite(site); err != nil {
 			return err
 		}
 	}
 	return err
 }
 
-func (cfg *config) processSite(sitename string) error {
+func processSite(sitename string) error {
 	os.RemoveAll(cfg.ErrorFile())
 	os.RemoveAll(filepath.Join(cfg.DestDir, sitename, "*.*"))
 
-	if err := cfg.processPages(sitename); err != nil {
+	if err := processPages(sitename); err != nil {
 		return err
 	}
 
-	if err := cfg.processStyles(sitename); err != nil {
+	if err := processStyles(sitename); err != nil {
 		return err
 	}
 
 	if fileExists(filepath.Join(cfg.SrcDir, sitename, cfg.ImageDir)) {
-		if err := cfg.processImages(sitename); err != nil {
+		if err := processImages(sitename); err != nil {
 			return err
 		}
 	}
@@ -45,7 +45,7 @@ func (cfg *config) processSite(sitename string) error {
 	return nil
 }
 
-func (cfg *config) processImages(sitename string) error {
+func processImages(sitename string) error {
 	var err error
 	var files []string
 
@@ -57,29 +57,29 @@ func (cfg *config) processImages(sitename string) error {
 	return err
 }
 
-func (cfg *config) processPages(sitename string) error {
+func processPages(sitename string) error {
 
 	if err := makeDirIfMissing(filepath.Join(cfg.DestDir, sitename, cfg.PageDir)); err != nil {
 		return err
 	}
 
-	return cfg.processDir(
+	return processDir(
 		filepath.Join(cfg.SrcDir, sitename, cfg.PageDir),
 		".ace",
 		&AceProcessor{BaseDir: filepath.Join(cfg.SrcDir, sitename, cfg.PageDir)})
 }
 
-func (cfg *config) processStyles(sitename string) error {
+func processStyles(sitename string) error {
 	if err := makeDirIfMissing(filepath.Join(cfg.DestDir, sitename, cfg.StyleDir)); err != nil {
 		return err
 	}
 
 	// var processor = &GcssProcessor{}
 	// var processor = &SassProcessor{}
-	return cfg.processDir(filepath.Join(cfg.SrcDir, sitename, cfg.StyleDir), ".sass", &SassProcessor{})
+	return processDir(filepath.Join(cfg.SrcDir, sitename, cfg.StyleDir), ".sass", &SassProcessor{})
 }
 
-func (cfg *config) processDir(srcdir string, filetype string, processor Processor) error {
+func processDir(srcdir string, filetype string, processor Processor) error {
 	var err error
 
 	if files, err := FileTypeGlob(srcdir, filetype); err == nil {

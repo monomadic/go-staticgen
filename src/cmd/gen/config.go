@@ -5,10 +5,11 @@ import (
 	"path/filepath"
 )
 
-type config struct {
+type Config struct {
 	Host     string
 	Port     string
 	Name     string
+	
 	SiteDir  string
 	BuildDir string
 	ImageDir string
@@ -19,14 +20,14 @@ type config struct {
 	DestDir string
 }
 
-func (cfg *config) ServerURL() string {
+func (cfg *Config) ServerURL() string {
 	return fmt.Sprintf("http://%s:%s/", cfg.Host, cfg.Port)
 }
 
-func (cfg *config) PagesSrcDir(site string) string {
+func (cfg *Config) PagesSrcDir(site string) string {
 	return filepath.Join(cfg.SiteDir, site, cfg.PageDir)
 }
 
-func (cfg *config) ErrorFile() string {
+func (cfg *Config) ErrorFile() string {
 	return filepath.Join(cfg.BuildDir, "error.html")
 }
