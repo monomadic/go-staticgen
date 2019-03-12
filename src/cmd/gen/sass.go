@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	"bytes"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -12,11 +12,15 @@ import (
 func processSASS(filename string) error {
 	// open file for reading
 	reader, err := os.Open(filename)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 
 	// open file for writing
 	writer, err := os.Create(strings.Replace(convertSrcToDestPath(filename), "sass", "css", 1))
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 	println("opened: " + strings.Replace(convertSrcToDestPath(filename), "sass", "css", 1))
 
 	// create empty buffer
@@ -24,11 +28,15 @@ func processSASS(filename string) error {
 
 	// convert sass to scss
 	err = libsass.ToScss(reader, buffer)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 
 	// set up compiler
 	compiler, err := libsass.New(writer, buffer)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 
 	// configure @import paths
 	srcDir, _ := filepath.Split(filename)

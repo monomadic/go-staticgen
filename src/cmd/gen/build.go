@@ -38,7 +38,9 @@ func processSite(sitename string) error {
 
 			// guard against partials and dotfiles
 			prefix := filepath.Base(name)[0:1]
-			if prefix == "_" || prefix == "." { continue }
+			if prefix == "_" || prefix == "." {
+				continue
+			}
 
 			// make the directory at the target
 			if err := makeDirIfMissing(convertSrcToDestPath(filepath.Dir(name))); err != nil {
@@ -51,7 +53,7 @@ func processSite(sitename string) error {
 			case ".ace":
 				// processACE(name)
 			}
-			println(name);
+			println(name)
 		}
 	}
 
