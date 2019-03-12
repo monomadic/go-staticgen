@@ -16,7 +16,7 @@ func processArgs() {
     %s
 
   DESCRIPTION:
-    An opinionated multi-site static generator written in golang.
+    An opinionated multi-site static generator written in golang. 🥒
 
   COMMANDS:
     new <sitename>       Creates a new site scaffolding.

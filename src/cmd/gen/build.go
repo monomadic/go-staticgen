@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 )
 
+/// Process all sites.
 func processSites() error {
 	sites, err := allSites()
 	if err != nil {
@@ -24,38 +25,64 @@ func processSites() error {
 	return err
 }
 
+/// Process a single site.
 func processSite(sitename string) error {
 	os.RemoveAll(cfg.ErrorFile())
 	os.RemoveAll(filepath.Join(cfg.DestDir, sitename, "*.*"))
 
-	if err := processPages(sitename); err != nil {
-		return err
-	}
+	var err error
+	var files []string
 
-	if err := processStyles(sitename); err != nil {
-		return err
-	}
+	if files, err = RecursiveGlob(filepath.Join(cfg.SrcDir, sitename)); err == nil {
+		for _, name := range files {
 
-	if fileExists(filepath.Join(cfg.SrcDir, sitename, cfg.ImageDir)) {
-		if err := processImages(sitename); err != nil {
-			return err
+			// guard against partials and dotfiles
+			prefix := filepath.Base(name)[0:1]
+			if prefix == "_" || prefix == "." { continue }
+
+			// make the directory at the target
+			if err := makeDirIfMissing(convertSrcToDestPath(filepath.Dir(name))); err != nil {
+				return err
+			}
+
+			switch filepath.Ext(name) {
+			case ".sass":
+				processSASS(name)
+			case ".ace":
+				// processACE(name)
+			}
+			println(name);
 		}
 	}
+
+	// if err := processPages(sitename); err != nil {
+	// 	return err
+	// }
+
+	// if err := processStyles(sitename); err != nil {
+	// 	return err
+	// }
+
+	// if fileExists(filepath.Join(cfg.SrcDir, sitename, cfg.ImageDir)) {
+	// 	if err := processImages(sitename); err != nil {
+	// 		return err
+	// 	}
+	// }
 
 	return nil
 }
 
-func processImages(sitename string) error {
-	var err error
-	var files []string
+// func processImages(sitename string) error {
+// 	var err error
+// 	var files []string
 
-	if files, err = RecursiveGlob(filepath.Join(cfg.SrcDir, sitename, cfg.ImageDir)); err == nil {
-		for _, name := range files {
-			err = copyFile(name)
-		}
-	}
-	return err
-}
+// 	if files, err = RecursiveGlob(filepath.Join(cfg.SrcDir, sitename, cfg.ImageDir)); err == nil {
+// 		for _, name := range files {
+// 			err = copyFile(name)
+// 		}
+// 	}
+// 	return err
+// }
 
 func processPages(sitename string) error {
 
